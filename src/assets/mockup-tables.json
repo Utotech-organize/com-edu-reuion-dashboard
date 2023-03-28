@@ -1,0 +1,166 @@
+{
+  "tables": [
+    {
+      "id": 1,
+      "name": "A1"
+    },
+    {
+      "id": 2,
+      "name": "A2"
+    },
+    {
+      "id": 3,
+      "name": "A3"
+    },
+    {
+      "id": 4,
+      "name": "A4"
+    },
+    {
+      "id": 5,
+      "name": "A5"
+    },
+    {
+      "id": 6,
+      "name": "B1"
+    },
+    {
+      "id": 7,
+      "name": "B2"
+    },
+    {
+      "id": 8,
+      "name": "B3"
+    },
+    {
+      "id": 9,
+      "name": "B4"
+    },
+    {
+      "id": 10,
+      "name": "B5"
+    },
+    {
+      "id": 11,
+      "name": "C1"
+    },
+    {
+      "id": 12,
+      "name": "C2"
+    },
+    {
+      "id": 13,
+      "name": "C3"
+    },
+    {
+      "id": 14,
+      "name": "C4"
+    },
+    {
+      "id": 15,
+      "name": "C5"
+    },
+    {
+      "id": 16,
+      "name": "D1"
+    },
+    {
+      "id": 17,
+      "name": "D2"
+    },
+    {
+      "id": 18,
+      "name": "D3"
+    },
+    {
+      "id": 19,
+      "name": "D4"
+    },
+    {
+      "id": 20,
+      "name": "D5"
+    },
+    {
+      "id": 21,
+      "name": "E1"
+    },
+    {
+      "id": 22,
+      "name": "E2"
+    },
+    {
+      "id": 23,
+      "name": "E3"
+    },
+    {
+      "id": 24,
+      "name": "E4"
+    },
+    {
+      "id": 25,
+      "name": "E5"
+    }
+  ],
+
+  "seats": [
+    {
+      "id": 1,
+      "label": "one",
+      "name": "A"
+    },
+    {
+      "id": 2,
+      "label": "two",
+
+      "name": "B"
+    },
+    {
+      "id": 3,
+      "label": "three",
+
+      "name": "C"
+    },
+    {
+      "id": 4,
+      "label": "four",
+
+      "name": "D"
+    },
+    {
+      "id": 5,
+      "label": "five",
+
+      "name": "E"
+    },
+    {
+      "id": 6,
+      "label": "six",
+
+      "name": "F"
+    },
+    {
+      "id": 7,
+      "label": "seven",
+
+      "name": "G"
+    },
+    {
+      "id": 8,
+      "label": "eight",
+
+      "name": "H"
+    },
+    {
+      "id": 9,
+      "label": "nine",
+
+      "name": "I"
+    },
+    {
+      "id": 10,
+      "label": "ten",
+
+      "name": "J"
+    }
+  ]
+}
