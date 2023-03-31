@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AppLayout } from "./layout";
 
 import { Login, DashboardIndex, Root } from "./pages";
 import { UserIndex, UserNew, UserEdit } from "./pages/user";
@@ -10,9 +9,12 @@ import {
 } from "./pages/reservation";
 import { PaymentIndex, PaymentEdit, PaymentSuccess } from "./pages/payment";
 
+import { loader as rootLoader } from "./pages/root";
+
 export const router = createBrowserRouter([
   {
     path: "/",
+    loader: rootLoader,
     element: <Root />,
     children: [
       {

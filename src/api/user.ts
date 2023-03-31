@@ -1,23 +1,15 @@
 import client from "./client";
 
-export async function getSeats() {
+export async function getUsers() {
   return client({
     method: "GET",
-    url: "/seats",
+    url: "/users",
   });
 }
 
-export async function bookingSeat(id: any, data: any) {
-  return client({
-    method: "PUT",
-    url: `/seats/${id}/booking`,
-    data,
-  });
-}
-
-export async function getBookingSeat(id: any) {
+export async function getUser(id: any) {
   return client({
     method: "GET",
-    url: `/seats/${id}/booking`,
+    url: `/users/${id}`,
   });
 }

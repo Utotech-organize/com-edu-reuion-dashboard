@@ -2,11 +2,14 @@ import axios from "axios";
 
 const client = () => {
   const defualtOptions = {
-    baseURL: import.meta.env.VITE_BASE_URL,
+    baseURL: import.meta.env.VITE_APP_API_BASE_URL,
     headers: {
       "Content-Type": "application/json",
     },
   };
+
+  console.log({ defualtOptions });
+
   let instance = axios.create(defualtOptions);
 
   instance.interceptors.request.use(function (config) {

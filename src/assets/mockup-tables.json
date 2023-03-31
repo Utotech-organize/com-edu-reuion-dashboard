@@ -2,15 +2,18 @@
   "tables": [
     {
       "id": 1,
-      "name": "A1"
+      "name": "A1",
+      "status": "a"
     },
     {
       "id": 2,
-      "name": "A2"
+      "name": "A2",
+      "status": "b"
     },
     {
       "id": 3,
-      "name": "A3"
+      "name": "A3",
+      "status": "c"
     },
     {
       "id": 4,

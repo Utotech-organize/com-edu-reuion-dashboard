@@ -2,7 +2,17 @@ import { Button, Col, Row, Space, Typography } from "antd";
 import { Link } from "react-router-dom";
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
+
 import Mockup from "../../assets/mockup-tables.json";
+
+const tables = [
+  { id: 1, name: "A1" },
+  { id: 2, name: "A2" },
+  { id: 3, name: "A3" },
+  { id: 4, name: "A4" },
+  { id: 5, name: "A5" },
+];
+
 export const ReservationIndex = () => {
   const mentions = [
     {
@@ -19,6 +29,19 @@ export const ReservationIndex = () => {
       color: "rgba(255, 202, 24, 0.4)",
     },
   ];
+
+  const exportColorWithStatus = (status: any) => {
+    let color = "";
+    if (status === "a") {
+      color = "#FFCA18";
+    } else if (status === "b") {
+      color = "#8598BD";
+    } else if (status === "c") {
+      color = "rgba(255, 202, 24, 0.4)";
+    }
+
+    return color;
+  };
 
   return (
     <IndexPageLayout>
@@ -55,12 +78,7 @@ export const ReservationIndex = () => {
                           width: "100%",
                           height: "70px",
                           color: "#000000",
-                          background:
-                            index < 10
-                              ? "#FFCA18"
-                              : index > 9 && index < 20
-                              ? "#8598BD"
-                              : "rgba(255, 202, 24, 0.4)",
+                          background: exportColorWithStatus(d.status),
                         }}
                       >
                         Table
