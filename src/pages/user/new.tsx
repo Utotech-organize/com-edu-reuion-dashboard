@@ -6,7 +6,7 @@ import { IndexPageLayout } from "../../layout";
 
 import * as API from "../../api";
 
-export async function action({ request, params }: any) {
+export async function newUserAction({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
   console.log({ submitData });
@@ -41,9 +41,9 @@ export const UserNew = () => {
         //example
 
         const payload = {
-          email: "test@gmail.com",
+          email: "test1@gmail.com",
           password: "password123",
-          firstname: "user",
+          firstname: "user1",
           lastname: "test",
           role: "user",
           // verified: true,

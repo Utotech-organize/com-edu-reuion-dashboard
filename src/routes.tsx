@@ -1,21 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { Login, DashboardIndex, Root } from "./pages";
+import { loader as rootLoader } from "./pages/root";
+import { action as loginAction } from "./pages/login";
+
 import { UserIndex, UserNew, UserEdit } from "./pages/user";
+import { userIndexLoader, userEditLoader, newUserAction } from "./pages/user";
+
 import {
   ReservationIndex,
   ReservationEdit,
   ReservationPayment,
 } from "./pages/reservation";
 import { PaymentIndex, PaymentEdit, PaymentSuccess } from "./pages/payment";
-
-import { loader as rootLoader } from "./pages/root";
-
-import { action as loginAction } from "./pages/login";
-
-import { action as newUserAction } from "./pages/user/new";
-import { loader as userEditLoader } from "./pages/user/edit";
-import { loader as userIndexLoader } from "./pages/user/index-page";
 
 export const router = createBrowserRouter([
   {

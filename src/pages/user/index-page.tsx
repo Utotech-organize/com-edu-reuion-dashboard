@@ -5,7 +5,7 @@ import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
 
-export async function loader({ request, params }: any) {
+export async function userIndexLoader({ request, params }: any) {
   //example
 
   try {

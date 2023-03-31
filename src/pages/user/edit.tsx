@@ -5,7 +5,7 @@ import { HeaderBar, UserForm } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
 
-export async function loader({ request, params }: any) {
+export async function userEditLoader({ request, params }: any) {
   //example
 
   console.log({ params });
