@@ -6,16 +6,15 @@ import { AppLayout } from "../layout";
 import * as API from "../api";
 
 export async function loader({ request, params }: any) {
+  //example
   try {
     const me = await API.getMe();
 
-    return { me: me.data };
+    return { me: me.data.data };
   } catch (e: any) {
-    // return redirect("/login");
-
     localStorage.removeItem("token");
 
-    return { me: null };
+    return redirect("/login");
   }
 }
 

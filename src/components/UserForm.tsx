@@ -2,6 +2,7 @@ import { Button, Form, Input, Row, Select, Space, Typography } from "antd";
 import React from "react";
 
 interface UserFormProps {
+  edit?: boolean;
   title: string;
   form: any;
   footer: any;
@@ -9,7 +10,7 @@ interface UserFormProps {
 }
 
 export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
-  const { title, form, footer, onFinished } = props;
+  const { edit, title, form, footer, onFinished } = props;
   const { Option } = Select;
 
   return (
@@ -34,16 +35,18 @@ export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
         <Input />
       </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.Password />
-      </Form.Item>
+      {!edit && (
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input.Password />
+        </Form.Item>
+      )}
       <Form.Item
         label="Name"
-        name="name"
+        name="firstname"
         rules={[{ required: true, message: "Please input your Name!" }]}
       >
         <Input />

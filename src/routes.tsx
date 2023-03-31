@@ -11,9 +11,16 @@ import { PaymentIndex, PaymentEdit, PaymentSuccess } from "./pages/payment";
 
 import { loader as rootLoader } from "./pages/root";
 
+import { action as loginAction } from "./pages/login";
+
+import { action as newUserAction } from "./pages/user/new";
+import { loader as userEditLoader } from "./pages/user/edit";
+import { loader as userIndexLoader } from "./pages/user/index-page";
+
 export const router = createBrowserRouter([
   {
     path: "/",
+    id: "root",
     loader: rootLoader,
     element: <Root />,
     children: [
@@ -23,14 +30,17 @@ export const router = createBrowserRouter([
       },
       {
         path: "/user",
+        loader: userIndexLoader,
         element: <UserIndex />,
       },
       {
         path: "/user/new",
+        action: newUserAction,
         element: <UserNew />,
       },
       {
         path: "/user/:id",
+        loader: userEditLoader,
         element: <UserEdit />,
       },
       {
@@ -63,6 +73,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/login",
+    action: loginAction,
     element: <Login />,
   },
 ]);

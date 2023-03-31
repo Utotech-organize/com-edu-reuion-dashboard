@@ -8,14 +8,12 @@ const client = () => {
     },
   };
 
-  console.log({ defualtOptions });
-
   let instance = axios.create(defualtOptions);
 
   instance.interceptors.request.use(function (config) {
     const token = localStorage.getItem("token");
 
-    config.headers.access_token = token;
+    config.headers.Authorization = `Bearer ${token}`;
     return config;
   });
 

@@ -1,11 +1,30 @@
 import { Button, Form, Modal, Row } from "antd";
-import { Link } from "react-router-dom";
+import { Link, redirect, useSubmit } from "react-router-dom";
 
 import { HeaderBar, UserForm } from "../../components";
 import { IndexPageLayout } from "../../layout";
 
+import * as API from "../../api";
+
+export async function action({ request, params }: any) {
+  const formData = await request.formData();
+  const submitData = Object.fromEntries(formData);
+  console.log({ submitData });
+
+  try {
+    const { data } = await API.register(submitData);
+    console.log({ data });
+
+    return redirect(`/user/${data.id}`);
+  } catch (e: any) {
+    return { error: e.response.data.message };
+  }
+}
+
 export const UserNew = () => {
   const [form] = Form.useForm();
+
+  const submit = useSubmit();
 
   const handleSubmit = (values: any) => {
     Modal.confirm({
@@ -18,7 +37,22 @@ export const UserNew = () => {
       okText: "Confirm",
 
       onOk() {
-        //API.edit user
+        //API.add user
+        //example
+
+        const payload = {
+          email: "test@gmail.com",
+          password: "password123",
+          firstname: "user",
+          lastname: "test",
+          role: "user",
+          // verified: true,
+        };
+        submit(payload, { method: "post" });
+
+        //other way can use values to be an payload
+
+        //submit(values, { method: "post" });
       },
       cancelText: "Cancel",
       onCancel() {},

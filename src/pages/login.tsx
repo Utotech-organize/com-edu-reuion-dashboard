@@ -1,6 +1,6 @@
 import { Button, Form, Input, Row, Typography } from "antd";
 import * as Icon from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate, useSubmit } from "react-router-dom";
 
 import * as API from "../api";
 
@@ -8,41 +8,36 @@ export async function action({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
 
-  // try {
-  //   const { data } = await API.login(submitData);
-  //   const decode = jwtDecode(data.access_token) as any;
+  try {
+    const { data } = await API.login(submitData);
 
-  //   if (decode.id == 1) {
-  //     localStorage.setItem("token", data.access_token);
-  //     return redirect("/dashboard/analytics");
-  //   } else {
-  //     localStorage.setItem("token", data.access_token);
-  //     return redirect("/home");
-  //   }
-  // } catch (e: any) {
-  //   return { error: e.response.data.message };
-  // }
+    console.log({ data });
+
+    localStorage.setItem("token", data.access_token);
+
+    return redirect("/dashboard");
+  } catch (e: any) {
+    return { error: e.response.data.message };
+  }
 }
 
 export const Login = () => {
   const navigate = useNavigate();
 
+  const submit = useSubmit();
+
   const hanleSubmit = async (values: any) => {
-    console.log({ values });
+    // console.log({ values });
 
-    // console.log("test fuck");
+    // try {
+    //   const res = await API.login(values);
+    // localStorage.setItem("token", res.access_token);
+    //   console.log({ res });
+    // } catch (e: any) {
+    //   console.log({ e });
+    // }
 
-    // localStorage.setItem("token", JSON.stringify("123"));
-
-    // navigate("/dashboard");
-
-    try {
-      const res = await API.login(values);
-
-      console.log({ res });
-    } catch (e: any) {
-      console.log({ e });
-    }
+    submit(values, { method: "post" });
   };
 
   return (

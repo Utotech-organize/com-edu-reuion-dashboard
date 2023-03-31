@@ -1,6 +1,11 @@
 import React from "react";
 import { Avatar, Divider, Layout, Menu, Typography } from "antd";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useRouteLoaderData,
+} from "react-router-dom";
 import * as Icon from "@ant-design/icons";
 import { Content, Header } from "antd/es/layout/layout";
 
@@ -11,6 +16,7 @@ interface AppLayoutProps {
 export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
   const { Sider } = Layout;
   const location = useLocation();
+  const { me } = useRouteLoaderData("root") as any;
 
   const [collapsed, setCollapsed] = React.useState(false);
   const [activeKey, setActiveKey] = React.useState("");
@@ -55,14 +61,18 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
               <span className="logo-text-color1">Dashboard</span>
             </Typography.Title>
 
-            <Avatar style={{ background: "white", marginTop: "20px" }} />
+            <Avatar
+              src={me && me.user ? me.user.photo_url : ""}
+              style={{ background: "white", marginTop: "20px" }}
+            />
 
             <Typography.Text
               style={{
                 color: "white",
               }}
             >
-              Annop Ph.
+              {me && me.user ? me.user.firstname : ""}{" "}
+              {me && me.user ? me.user.lastname : ""}
             </Typography.Text>
 
             <Divider />

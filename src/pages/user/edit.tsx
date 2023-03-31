@@ -1,10 +1,31 @@
 import React from "react";
 import { Button, Form, Modal, Row } from "antd";
-import { Link } from "react-router-dom";
+import { Link, redirect, useLoaderData } from "react-router-dom";
 import { HeaderBar, UserForm } from "../../components";
 import { IndexPageLayout } from "../../layout";
+import * as API from "../../api";
+
+export async function loader({ request, params }: any) {
+  //example
+
+  console.log({ params });
+
+  try {
+    const user = await API.getUser(params.id);
+
+    return { user: user.data.data };
+  } catch (e: any) {
+    localStorage.removeItem("token");
+
+    // return redirect("/login");
+    return { user: null };
+  }
+}
 
 export const UserEdit = () => {
+  const { user } = useLoaderData() as any;
+  console.log({ user });
+
   const [form] = Form.useForm();
 
   const handleSubmit = (values: any) => {
@@ -43,6 +64,10 @@ export const UserEdit = () => {
     });
   };
 
+  React.useEffect(() => {
+    form.setFieldsValue(user.users);
+  }, []);
+
   return (
     <IndexPageLayout>
       <HeaderBar
@@ -61,6 +86,7 @@ export const UserEdit = () => {
         }}
       >
         <UserForm
+          edit={true}
           title="User Details"
           form={form}
           onFinished={handleSubmit}

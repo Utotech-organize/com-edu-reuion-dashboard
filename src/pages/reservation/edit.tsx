@@ -71,7 +71,12 @@ export const ReservationEdit = () => {
                       key={d.name}
                       className={`circle ${d.label}`}
                       style={{
-                        background: index < 6 ? "#FFA800" : "#00B1B1",
+                        background:
+                          selectedSeat.indexOf(d.id) > -1
+                            ? "rgb(156, 176, 215)"
+                            : index < 6
+                            ? "#FFA800"
+                            : "#00B1B1",
                       }}
                       onClick={() =>
                         setSelectedSeat((prev: any) => [...prev, d.id])

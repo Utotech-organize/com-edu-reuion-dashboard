@@ -1,40 +1,40 @@
 import { Button, Input, Table, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
+import * as API from "../../api";
+
+export async function loader({ request, params }: any) {
+  //example
+
+  try {
+    const users = await API.getUsers();
+    console.log({ users });
+
+    return { users: users.data.data };
+  } catch (e: any) {
+    localStorage.removeItem("token");
+
+    // return redirect("/login");
+    return { users: null };
+  }
+}
 
 export const UserIndex = () => {
-  const data = [
-    {
-      id: "1",
-      email: "john@admin.com",
-      name: "John Brown",
-      role: "Admin",
-    },
-    {
-      id: "2",
-      email: "jim@user.com",
-      name: "Jim Green",
-      role: "User",
-    },
-    {
-      id: "3",
-      email: "jpe@staff.com",
-      name: "Joe Black",
-      role: "Staff",
-    },
-  ];
+  const { users } = useLoaderData() as any;
+  console.log({ users });
 
   const columns = [
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      render: (text: any) => <a>{text}</a>,
+      render: (text: any) => <>{text}</>,
     },
     {
       title: "Name",
-      dataIndex: "name",
+      dataIndex: "firstname",
       key: "name",
     },
     {
@@ -48,7 +48,7 @@ export const UserIndex = () => {
       key: "action",
       align: "center",
       render: (_: any, record: any) => (
-        <Link to={record.id}>
+        <Link to={`${record.id}`}>
           <Button>Edit</Button>
         </Link>
       ),
@@ -91,7 +91,7 @@ export const UserIndex = () => {
             </div>
             <Table
               columns={columns}
-              dataSource={data}
+              dataSource={users}
               rowKey="id"
               scroll={{ y: "calc(100vh - 370px)", x: "max-content" }}
             />

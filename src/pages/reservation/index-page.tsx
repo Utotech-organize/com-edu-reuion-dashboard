@@ -1,8 +1,8 @@
 import { Button, Col, Row, Space, Typography } from "antd";
 import { Link } from "react-router-dom";
+
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
-
 import Mockup from "../../assets/mockup-tables.json";
 
 const tables = [

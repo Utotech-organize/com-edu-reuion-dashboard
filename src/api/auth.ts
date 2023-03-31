@@ -14,3 +14,11 @@ export async function getMe() {
     url: `/auth/me`,
   });
 }
+
+export async function register(data: any) {
+  return client({
+    method: "POST",
+    url: `/auth/register`,
+    data,
+  });
+}
