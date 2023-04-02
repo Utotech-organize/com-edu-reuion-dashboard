@@ -6,7 +6,7 @@ import { IndexPageLayout } from "../../layout";
 import Mockup from "../../assets/mockup-tables.json";
 
 export const ReservationEdit = () => {
-  const [selectedSeat, setSelectedSeat] = React.useState([]) as any[];
+  const [selectedSeat, setSelectedSeat] = React.useState<any>([]);
   const mentions = [
     {
       text: "Seat is available.",
@@ -22,6 +22,32 @@ export const ReservationEdit = () => {
       color: "#00B1B1",
     },
   ];
+
+  const handleSelectedSeat = (id: any) => {
+    let prev = selectedSeat;
+
+    if (prev.indexOf(id) === -1) {
+      setSelectedSeat([...selectedSeat, id]);
+      console.log("case 1");
+    } else {
+      prev = prev.filter((c: any) => c != id);
+      console.log("case 2");
+      setSelectedSeat(prev);
+    }
+  };
+
+  console.log({ selectedSeat });
+
+  const exportColorWithStatus = (status: any) => {
+    let color = "";
+    if (status === "a") {
+      color = "#FFA800";
+    } else if (status === "b") {
+      color = "#00B1B1";
+    }
+
+    return color;
+  };
 
   return (
     <IndexPageLayout>
@@ -74,12 +100,11 @@ export const ReservationEdit = () => {
                         background:
                           selectedSeat.indexOf(d.id) > -1
                             ? "rgb(156, 176, 215)"
-                            : index < 6
-                            ? "#FFA800"
-                            : "#00B1B1",
+                            : exportColorWithStatus(d.status),
+                        cursor: d.status === "b" ? "default" : "pointer",
                       }}
                       onClick={() =>
-                        setSelectedSeat((prev: any) => [...prev, d.id])
+                        d.status === "b" ? {} : handleSelectedSeat(d.id)
                       }
                     >
                       {d.name}

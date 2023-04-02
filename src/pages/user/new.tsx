@@ -41,7 +41,7 @@ export const UserNew = () => {
         //example
 
         const payload = {
-          email: "test1@gmail.com",
+          email: "test3@gmail.com",
           password: "password123",
           firstname: "user1",
           lastname: "test",

@@ -28,8 +28,9 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
 
 export const PaymentEdit = () => {
   const [selectedSeat, setSelectedSeat] = React.useState([]) as any[];
-  const [loading, setLoading] = React.useState(false);
   const [imageUrl, setImageUrl] = React.useState<any>([]);
+  const [form] = Form.useForm();
+
   const mentions = [
     {
       text: "Seat is available.",
@@ -70,6 +71,10 @@ export const PaymentEdit = () => {
 
     setImageUrl(info.fileList);
   };
+
+  React.useEffect(() => {
+    form.setFieldsValue({});
+  }, []);
 
   return (
     <IndexPageLayout>
@@ -168,7 +173,7 @@ export const PaymentEdit = () => {
                 }}
               >
                 <Form
-                  // form={form}
+                  form={form}
                   name="user"
                   // onFinish={onFinished}
                   autoComplete="off"
@@ -252,6 +257,7 @@ export const PaymentEdit = () => {
                       >
                         <Link to="success">
                           <Button
+                            disabled={form.getFieldValue("slip") ? false : true}
                             block
                             style={{ background: "#303E57", color: "#ffffff" }}
                           >
