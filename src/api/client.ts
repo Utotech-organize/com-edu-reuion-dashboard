@@ -18,6 +18,16 @@ const client = () => {
     return config;
   });
 
+  instance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response.status === 403 || error.response.status === 401) {
+        window.location.href = "/login";
+        localStorage.removeItem("token");
+      }
+    }
+  );
+
   return instance;
 };
 

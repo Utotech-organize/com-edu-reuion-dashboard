@@ -1,13 +1,9 @@
 import * as React from "react";
 
 interface AuthContextData {
-  user?: any;
-
-  // onShowResChatbot: (value: any) => void;
+  onResponse: (status: any, message: any) => void;
 }
 
 export const AuthContext = React.createContext<AuthContextData>({
-  user: null,
-
-  // onShowResChatbot: () => {},
+  onResponse: () => {},
 });

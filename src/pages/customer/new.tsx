@@ -1,27 +1,27 @@
 import { Button, Form, Modal, Row } from "antd";
 import { Link, redirect, useSubmit } from "react-router-dom";
 
-import { HeaderBar, UserForm } from "../../components";
+import { CustomerForm, HeaderBar, UserForm } from "../../components";
 import { IndexPageLayout } from "../../layout";
 
 import * as API from "../../api";
 
-export async function newUserAction({ request, params }: any) {
+export async function newCustomerAction({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
   console.log({ submitData });
 
   try {
-    const { data } = await API.createUser(submitData);
+    const { data } = await API.createCustomer(submitData);
     console.log({ data });
 
-    return redirect(`/user/${data.id}`);
+    return redirect(`/customer/${data.id}`);
   } catch (e: any) {
     return { error: e.response.data.message };
   }
 }
 
-export const UserNew = () => {
+export const CustomerNew = () => {
   const [form] = Form.useForm();
 
   const submit = useSubmit();
@@ -47,9 +47,9 @@ export const UserNew = () => {
   return (
     <IndexPageLayout>
       <HeaderBar
-        title="User Management"
+        title="Customer Management"
         btnData={[
-          <Link to="/user">
+          <Link to="/customer">
             <Button>Back</Button>
           </Link>,
         ]}
@@ -61,8 +61,9 @@ export const UserNew = () => {
           padding: "0px 40px 20px 40px",
         }}
       >
-        <UserForm
-          title="Add New User"
+        <CustomerForm
+          edit={false}
+          title="Customer Details"
           form={form}
           onFinished={handleSubmit}
           footer={
@@ -76,11 +77,6 @@ export const UserNew = () => {
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Save
-                </Button>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="reset">
-                  Reset
                 </Button>
               </Form.Item>
             </Row>

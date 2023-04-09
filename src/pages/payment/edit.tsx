@@ -12,13 +12,14 @@ import {
   UploadProps,
   Tag,
 } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+import { RcFile } from "rc-upload/lib/interface";
+import { PlusOutlined } from "@ant-design/icons";
+
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import Mockup from "../../assets/mockup-tables.json";
-import { RcFile } from "rc-upload/lib/interface";
-import { UploadChangeParam, UploadFile } from "antd/es/upload";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import * as API from "../../api";
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -26,7 +27,25 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
+export async function paymentEditLoader({ request, params }: any) {
+  try {
+    const booking = await API.getBooking(params.id);
+    const customer = await API.getCustomer(booking.data.data.customer);
+    const desk = await API.getDesk(booking.data.data.desk);
+
+    return {
+      customer: customer.data.data,
+      booking: booking.data.data,
+      desk: desk.data.data,
+    };
+  } catch (e: any) {
+    return { customer: null, booking: null, desk: [] };
+  }
+}
+
 export const PaymentEdit = () => {
+  const { customer, booking, desk } = useLoaderData() as any;
+
   const [selectedSeat, setSelectedSeat] = React.useState([]) as any[];
   const [imageUrl, setImageUrl] = React.useState<any>([]);
   const [form] = Form.useForm();
@@ -79,9 +98,9 @@ export const PaymentEdit = () => {
   return (
     <IndexPageLayout>
       <HeaderBar
-        title="Reservation"
+        title="Payment"
         btnData={[
-          <Link to="/reservation">
+          <Link to="/payment">
             <Button>Back</Button>
           </Link>,
         ]}
@@ -229,13 +248,13 @@ export const PaymentEdit = () => {
                         <Form.Item name="slip">
                           <Upload
                             // multiple={true}
+                            // onPreview={handlePreview}
                             listType="picture-card"
                             accept="image/*"
                             beforeUpload={(file) => {
                               return false;
                             }}
                             onChange={handleChange}
-                            // onPreview={handlePreview}
                           >
                             {!imageUrl.length ? (
                               <div>

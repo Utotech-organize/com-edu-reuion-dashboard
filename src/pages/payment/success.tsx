@@ -12,13 +12,12 @@ import {
   UploadProps,
   Tag,
 } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+import { RcFile } from "rc-upload/lib/interface";
+
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
-import Mockup from "../../assets/mockup-tables.json";
-import { RcFile } from "rc-upload/lib/interface";
-import { UploadChangeParam, UploadFile } from "antd/es/upload";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import * as API from "../../api";
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -26,57 +25,31 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
+export async function paymentSuccessLoader({ request, params }: any) {
+  try {
+    const booking = await API.getBooking(params.id);
+    const customer = await API.getCustomer(booking.data.data.customer);
+    const desk = await API.getDesk(booking.data.data.desk);
+
+    return {
+      customer: customer.data.data,
+      booking: booking.data.data,
+      desk: desk.data.data,
+    };
+  } catch (e: any) {
+    return { customer: null, booking: null, desk: [] };
+  }
+}
+
 export const PaymentSuccess = () => {
-  const [selectedSeat, setSelectedSeat] = React.useState([]) as any[];
-  const [loading, setLoading] = React.useState(false);
-  const [imageUrl, setImageUrl] = React.useState<any>([]);
-  const mentions = [
-    {
-      text: "Seat is available.",
-      color: "#FFA800",
-    },
-
-    {
-      text: "Seat is not available.",
-      color: "#00B1B1",
-    },
-  ];
-
-  const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
-    }
-    // return isJpgOrPng && isLt2M;
-    return true;
-  };
-
-  const handleChange = (info: any) => {
-    // if (info.file.status === "uploading") {
-    //   setLoading(true);
-    //   return;
-    // }
-    // if (info.file.status === "done") {
-    //   // Get this url from response in real world.
-    //   getBase64(info.file.originFileObj as RcFile, (url) => {
-    //     setLoading(false);
-    //     setImageUrl(url);
-    //   });
-    // }
-
-    setImageUrl(info.fileList);
-  };
+  const { customer, booking, desk } = useLoaderData() as any;
 
   return (
     <IndexPageLayout>
       <HeaderBar
-        title="Reservation"
+        title="Payment"
         btnData={[
-          <Link to="/reservation">
+          <Link to="/payment">
             <Button>Back</Button>
           </Link>,
         ]}
@@ -85,16 +58,34 @@ export const PaymentSuccess = () => {
         <div className="reserv-box">
           <Row gutter={20} style={{ minWidth: "95%" }}>
             <Col xs={24} sm={24} md={24} lg={12}>
-              <Typography.Title
-                level={4}
-                style={{
-                  marginTop: "10px",
-                  marginBottom: "20px",
-                  width: "100%",
-                }}
-              >
-                A3 <Tag color="success">Paid</Tag>
-              </Typography.Title>
+              <Space size="middle" align="center">
+                <Typography.Title
+                  level={4}
+                  style={{
+                    marginTop: "10px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  Table {desk && desk.label ? desk.label : "-"}
+                </Typography.Title>
+
+                <Space size="small" style={{ marginBottom: "10px" }}>
+                  <Tag
+                    color={
+                      booking.payment_status === "unpaid"
+                        ? "warning"
+                        : "success"
+                    }
+                  >
+                    {booking.payment_status}
+                  </Tag>
+                  <Tag
+                    color={booking.status === "pending" ? "blue" : "success"}
+                  >
+                    {booking.status}
+                  </Tag>
+                </Space>
+              </Space>
               <div
                 style={{
                   width: "100%",
@@ -124,6 +115,9 @@ export const PaymentSuccess = () => {
                   autoComplete="off"
                   colon={false}
                   layout="vertical"
+                  initialValues={{
+                    ...customer,
+                  }}
                 >
                   <Typography.Title
                     level={4}
@@ -132,62 +126,38 @@ export const PaymentSuccess = () => {
                       marginBottom: "20px",
                     }}
                   >
-                    Reserve Detail
+                    Booking Detail
                   </Typography.Title>
-                  <Form.Item label="FirstName - LastName" name="name">
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label="Phone" name="phone">
-                    <Input />
+                  <Row gutter={20}>
+                    <Col xs={24} sm={24} md={24} lg={12}>
+                      <Form.Item label="First Name" name="first_name">
+                        <Input disabled />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={12}>
+                      <Form.Item label="Last Name" name="last_name">
+                        <Input disabled />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Form.Item label="Phone" name="tel">
+                    <Input disabled />
                   </Form.Item>
 
                   <Form.Item label="Table No." name="tableNo">
-                    <Input />
+                    <Input disabled />
                   </Form.Item>
                   <Row gutter={20}>
                     <Col span={12}>
                       <Form.Item label="Amount" name="amount">
-                        <Input />
+                        <Input disabled />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <Form.Item label="Total" name="total">
-                        <Input />
+                        <Input disabled />
                       </Form.Item>
                     </Col>
-                  </Row>
-
-                  <Row
-                    justify="center"
-                    style={{
-                      width: "100%",
-                      padding: "8px",
-                      background: "#ffffff",
-                      borderRadius: "8px",
-                      marginTop: "20px",
-                      height: "120px",
-                    }}
-                  >
-                    <Form.Item name="slip">
-                      <Upload
-                        // multiple={true}
-                        listType="picture-card"
-                        accept="image/*"
-                        beforeUpload={(file) => {
-                          return false;
-                        }}
-                        onChange={handleChange}
-                        // onPreview={handlePreview}
-                      >
-                        {!imageUrl.length ? (
-                          <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                          </div>
-                        ) : null}
-                      </Upload>
-                    </Form.Item>
                   </Row>
                 </Form>
               </div>

@@ -2,34 +2,29 @@ import React from "react";
 import { Button, Input, Table, Tag, Typography } from "antd";
 import { Link, useLoaderData } from "react-router-dom";
 
-import { HeaderBar } from "../../components";
+import { CreateDeskModal, HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
-import { DollarOutlined } from "@ant-design/icons";
 
-export async function paymentIndexLoader() {
+export async function deskIndexLoader() {
   try {
-    const bookings = await API.getBookings();
+    const desks = await API.getDesks();
 
-    const resultBooking = bookings.data.data.filter(
-      (d: any) => d.payment_status === "paid"
-    );
-
-    return { bookings: resultBooking };
+    return { desks: desks.data.data };
   } catch (e: any) {
-    return { bookings: [] };
+    return { desks: [] };
   }
 }
 
-export const PaymentIndex = () => {
-  const { bookings } = useLoaderData() as any;
-  console.log({ bookings });
+export const DeskIndex = () => {
+  const { desks } = useLoaderData() as any;
 
-  const [searchTerms, setSearchTerms] = React.useState(bookings);
+  const [searchTerms, setSearchTerms] = React.useState(desks);
+  const [modal, setModal] = React.useState<boolean>(false);
 
   const handleSearch = (e: any) => {
     setSearchTerms(
-      bookings.filter(
+      desks.filter(
         (data: any) =>
           data.email.includes(e.target.value) ||
           data.first_name.includes(e.target.value)
@@ -37,22 +32,44 @@ export const PaymentIndex = () => {
     );
   };
 
+  const handleFinishedModal = (values: any) => {
+    console.log({ values });
+    const { chair_price, ...value } = values;
+    const allLabel = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
+    const chairs = allLabel.map((d: any) => {
+      return {
+        label: d,
+        status: "available",
+        chair_price: chair_price,
+      };
+    });
+
+    const payload = {
+      ...value,
+      chairs: chairs,
+    };
+
+    console.log({ payload });
+  };
+
   const columns = [
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Label",
+      dataIndex: "label",
+      key: "label",
       render: (text: any) => <>{text}</>,
     },
     {
-      title: "Payment Status",
-      dataIndex: "payment_status",
-      key: "payment_status",
-      render: (text: any) => (
-        <Tag color={text === "unpaid" ? "warning" : "success"}> {text}</Tag>
-      ),
+      title: "Price / Chair",
+      dataIndex: "unitPrice",
+      key: "unitPrice",
     },
-
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+    },
     {
       title: "Status",
       dataIndex: "status",
@@ -68,9 +85,7 @@ export const PaymentIndex = () => {
       align: "center",
       render: (_: any, record: any) => (
         <Link to={`${record.id}`}>
-          <Button>
-            <DollarOutlined />
-          </Button>
+          <Button>Edit</Button>
         </Link>
       ),
     },
@@ -78,7 +93,15 @@ export const PaymentIndex = () => {
 
   return (
     <IndexPageLayout>
-      <HeaderBar title="Booking Management" btnData={[]} />
+      <HeaderBar
+        title="Desk Management"
+        btnData={[<Button onClick={() => setModal(true)}>Add Desk</Button>]}
+      />
+      <CreateDeskModal
+        open={modal}
+        onCancel={() => setModal(false)}
+        handleFinishedModal={handleFinishedModal}
+      />
       <div className="reserv-container">
         <div className="reserv-box">
           <div
@@ -97,9 +120,9 @@ export const PaymentIndex = () => {
                 Search
               </Typography.Title>
 
-              <Input placeholder="email or firstname" onChange={handleSearch} />
+              <Input placeholder="label" onChange={handleSearch} />
 
-              <div className="bar-table-name ">Payment Management list</div>
+              <div className="bar-table-name">Desk Management list</div>
             </div>
             <Table
               columns={columns}

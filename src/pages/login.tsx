@@ -1,44 +1,46 @@
-import { Button, Form, Input, Row, Typography } from "antd";
+import React from "react";
+import { Button, Form, Input, Row, Typography, notification } from "antd";
 import * as Icon from "@ant-design/icons";
-import { Link, redirect, useNavigate, useSubmit } from "react-router-dom";
+import { useActionData, useNavigate, useSubmit } from "react-router-dom";
 
 import * as API from "../api";
 
-export async function action({ request, params }: any) {
+export async function loader({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
-
   try {
     const { data } = await API.login(submitData);
-
-    console.log({ data });
-
     localStorage.setItem("token", data.access_token);
-
-    return redirect("/dashboard");
+    return { message: "Welcome to ComEduReuion Dashboard", status: "success" };
   } catch (e: any) {
-    return { error: e.response.data.message };
+    return { message: "Invalid email or password", status: "error" };
   }
 }
 
 export const Login = () => {
-  const navigate = useNavigate();
-
   const submit = useSubmit();
+  const navigate = useNavigate();
+  const action = useActionData() as any;
 
   const hanleSubmit = async (values: any) => {
-    // console.log({ values });
-
-    // try {
-    //   const res = await API.login(values);
-    // localStorage.setItem("token", res.access_token);
-    //   console.log({ res });
-    // } catch (e: any) {
-    //   console.log({ e });
-    // }
-
     submit(values, { method: "post" });
   };
+
+  React.useEffect(() => {
+    if (action && action.status) {
+      const type = action.status as "success" | "error";
+
+      notification[type]({
+        message: action.message,
+        placement: "bottomLeft",
+        duration: 5,
+      });
+
+      if (action.status === "success") {
+        navigate("/dashboard");
+      }
+    }
+  }, [action]);
 
   return (
     <div className="login-layout">

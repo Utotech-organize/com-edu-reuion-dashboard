@@ -1,29 +1,75 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { Login, DashboardIndex, Root } from "./pages";
-import { loader as rootLoader } from "./pages/root";
-import { action as loginAction } from "./pages/login";
+import { RootLoader } from "./pages/root";
+import { loader as LoginAction } from "./pages/login";
 
 import { UserIndex, UserNew, UserEdit } from "./pages/user";
-import { userIndexLoader, userEditLoader, newUserAction } from "./pages/user";
+import {
+  userIndexLoader,
+  userEditLoader,
+  newUserAction,
+  editUserAction,
+} from "./pages/user";
 
 import {
-  ReservationIndex,
-  ReservationEdit,
+  CustomerEdit,
+  CustomerIndex,
+  CustomerNew,
+  customerEditAction,
+} from "./pages/customer";
+import {
+  customerIndexLoader,
+  customerEditLoader,
+  newCustomerAction,
+} from "./pages/customer";
+
+import {
+  BookingIndex,
+  NewBooking,
+  NewBookingSingle,
   ReservationPayment,
 } from "./pages/reservation";
+import {
+  BookingIndexLoader,
+  NewBookingLoader,
+  NewBookingSingleLoader,
+  NewBookingSingleAction,
+  reservationPaymentLoader,
+} from "./pages/reservation";
+
 import { PaymentIndex, PaymentEdit, PaymentSuccess } from "./pages/payment";
+
+import { paymentIndexLoader, paymentSuccessLoader } from "./pages/payment";
+
+import { deskIndexLoader, editDeskLoader } from "./pages/desk";
+import { DeskIndex, EditDesk } from "./pages/desk";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     id: "root",
-    loader: rootLoader,
+    loader: RootLoader,
     element: <Root />,
     children: [
       {
-        path: "/dashboard",
+        path: "/analytic",
         element: <DashboardIndex />,
+      },
+      {
+        path: "/desk",
+        loader: deskIndexLoader,
+        element: <DeskIndex />,
+      },
+      {
+        path: "/desk/new",
+        action: newUserAction,
+        element: <UserNew />,
+      },
+      {
+        path: "/desk/:id",
+        loader: editDeskLoader,
+        element: <EditDesk />,
       },
       {
         path: "/user",
@@ -38,39 +84,63 @@ export const router = createBrowserRouter([
       {
         path: "/user/:id",
         loader: userEditLoader,
+        action: editUserAction,
         element: <UserEdit />,
       },
       {
-        path: "/reservation",
-        element: <ReservationIndex />,
+        path: "/customer",
+        loader: customerIndexLoader,
+        element: <CustomerIndex />,
       },
       {
-        path: "/reservation/:id",
-        element: <ReservationEdit />,
+        path: "/customer/new",
+        action: newCustomerAction,
+        element: <CustomerNew />,
       },
       {
-        path: "/reservation/:id/payment",
+        path: "/customer/:id",
+        loader: customerEditLoader,
+        action: customerEditAction,
+        element: <CustomerEdit />,
+      },
+      {
+        path: "/booking",
+        loader: BookingIndexLoader,
+        element: <BookingIndex />,
+      },
+      {
+        path: "/booking/new",
+        loader: NewBookingLoader,
+        element: <NewBooking />,
+      },
+      {
+        path: "/booking/new/:id",
+        loader: NewBookingSingleLoader,
+        action: NewBookingSingleAction,
+        element: <NewBookingSingle />,
+      },
+      {
+        path: "/booking/:id",
+        loader: reservationPaymentLoader,
         element: <ReservationPayment />,
       },
 
       {
         path: "/payment",
+        loader: paymentIndexLoader,
         element: <PaymentIndex />,
       },
 
       {
         path: "/payment/:id",
-        element: <PaymentEdit />,
-      },
-      {
-        path: "/payment/:id/success",
+        loader: paymentSuccessLoader,
         element: <PaymentSuccess />,
       },
     ],
   },
   {
     path: "/login",
-    action: loginAction,
+    action: LoginAction,
     element: <Login />,
   },
 ]);

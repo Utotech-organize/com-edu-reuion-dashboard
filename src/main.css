@@ -13,6 +13,18 @@ body {
   line-height: 40px;
 }
 
+/* .ant-upload {
+  width: 200px;
+  height: 100px;
+} */
+.ant-upload-list-item-image {
+  object-fit: cover !important;
+}
+/* .ant-upload-list-item-container {
+  height: 100px;
+  width: 200px;
+} */
+
 .bar-table-name {
   background: #dbdbdb;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
@@ -78,6 +90,18 @@ body {
   border-radius: 8px;
   cursor: pointer;
   max-width: 100px;
+}
+
+.mention {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  min-width: 70px;
+  border-radius: 8px;
+  cursor: pointer;
+  max-width: 90px;
 }
 
 .grid-container {

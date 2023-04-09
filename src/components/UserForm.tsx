@@ -1,7 +1,8 @@
-import { Button, Form, Input, Row, Select, Space, Typography } from "antd";
+import { Form, Input, Typography } from "antd";
 import React from "react";
 
 interface UserFormProps {
+  loading?: boolean;
   edit?: boolean;
   title: string;
   form: any;
@@ -10,8 +11,7 @@ interface UserFormProps {
 }
 
 export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
-  const { edit, title, form, footer, onFinished } = props;
-  const { Option } = Select;
+  const { loading, edit, title, form, footer, onFinished } = props;
 
   return (
     <Form
@@ -23,6 +23,7 @@ export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
       layout="horizontal"
       labelCol={{ span: 3 }}
       labelAlign="left"
+      disabled={loading}
     >
       <Typography.Title level={4} style={{ marginTop: "0px" }}>
         {title}
@@ -32,7 +33,7 @@ export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
         name="email"
         rules={[{ required: true, message: "Please input your Email!" }]}
       >
-        <Input />
+        <Input disabled={edit} />
       </Form.Item>
 
       {!edit && (
@@ -46,46 +47,16 @@ export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
       )}
       <Form.Item
         label="Name"
-        name="firstname"
+        name="name"
         rules={[{ required: true, message: "Please input your Name!" }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
         label="Phone"
-        name="phone"
+        name="tel"
         rules={[{ required: true, message: "Please input your Phone!" }]}
       >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Working Address"
-        name="address"
-        rules={[
-          { required: true, message: "Please input your Working Address!" },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        name="role"
-        label="Access Role"
-        rules={[{ required: true, message: "Please select Access Role!" }]}
-      >
-        <Select placeholder="Select accessible role.">
-          <Option value="admin">Admin</Option>
-          <Option value="Staff">staff</Option>
-          <Option value="user">User</Option>
-        </Select>
-      </Form.Item>
-
-      <Form.Item label="Line id" name="lineId">
-        <Input />
-      </Form.Item>
-
-      <Form.Item label="Line name" name="LineName">
         <Input />
       </Form.Item>
 

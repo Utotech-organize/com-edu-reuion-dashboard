@@ -7,6 +7,7 @@ import {
   useRouteLoaderData,
 } from "react-router-dom";
 import * as Icon from "@ant-design/icons";
+
 import { Content, Header } from "antd/es/layout/layout";
 
 interface AppLayoutProps {
@@ -39,6 +40,7 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
         collapsible
         collapsed={collapsed}
         collapsedWidth={0}
+        width={230}
         style={{
           padding: collapsed ? "0px" : "5px",
         }}
@@ -71,8 +73,7 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
                 color: "white",
               }}
             >
-              {me && me.user ? me.user.firstname : ""}{" "}
-              {me && me.user ? me.user.lastname : ""}
+              {me && me.user ? me.user.name : "-"}
             </Typography.Text>
 
             <Divider />
@@ -86,9 +87,14 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
           selectedKeys={[activeKey]}
           items={[
             {
-              key: "dashboard",
+              key: "analytic",
               icon: <Icon.PieChartOutlined />,
-              label: <Link to="/dashboard">Dashboard</Link>,
+              label: <Link to="/analytic">Analytic</Link>,
+            },
+            {
+              key: "desk",
+              icon: <Icon.TableOutlined />,
+              label: <Link to="/desk">Desk Management</Link>,
             },
             {
               key: "user",
@@ -96,9 +102,15 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
               label: <Link to="/user">User Management</Link>,
             },
             {
-              key: "reservation",
+              key: "customer",
+              icon: <Icon.UsergroupAddOutlined />,
+              label: <Link to="/customer">Customer Management</Link>,
+            },
+
+            {
+              key: "booking",
               icon: <Icon.BookOutlined />,
-              label: <Link to="/reservation">Reservation</Link>,
+              label: <Link to="/booking">Booking</Link>,
             },
             {
               key: "payment",

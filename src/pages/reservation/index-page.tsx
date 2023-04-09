@@ -1,172 +1,120 @@
-import { Button, Col, Row, Space, Typography } from "antd";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Button, Input, Table, Tag, Typography } from "antd";
+import { Link, useLoaderData } from "react-router-dom";
 
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
-import Mockup from "../../assets/mockup-tables.json";
+import * as API from "../../api";
 
-const tables = [
-  { id: 1, name: "A1" },
-  { id: 2, name: "A2" },
-  { id: 3, name: "A3" },
-  { id: 4, name: "A4" },
-  { id: 5, name: "A5" },
-];
+export async function BookingIndexLoader() {
+  try {
+    const bookings = await API.getBookings();
 
-export const ReservationIndex = () => {
-  const mentions = [
-    {
-      text: "Table is available.",
-      color: "#FFCA18",
-    },
-    {
-      text: "Table is available but some seats are reserved.",
-      color: "#8598BD",
-    },
+    const resultBooking = bookings.data.data.filter(
+      (d: any) => d.payment_status === "unpaid"
+    );
 
-    {
-      text: "Table is not available.",
-      color: "rgba(255, 202, 24, 0.4)",
-    },
-  ];
+    return { bookings: resultBooking };
+  } catch (e: any) {
+    return { bookings: [] };
+  }
+}
 
-  const exportColorWithStatus = (status: any) => {
-    let color = "";
-    if (status === "a") {
-      color = "#FFCA18";
-    } else if (status === "b") {
-      color = "#8598BD";
-    } else if (status === "c") {
-      color = "rgba(255, 202, 24, 0.4)";
-    }
+export const BookingIndex = () => {
+  const { bookings } = useLoaderData() as any;
+  console.log({ bookings });
 
-    return color;
+  const [searchTerms, setSearchTerms] = React.useState(bookings);
+
+  const handleSearch = (e: any) => {
+    setSearchTerms(
+      bookings.filter(
+        (data: any) =>
+          data.email.includes(e.target.value) ||
+          data.first_name.includes(e.target.value)
+      )
+    );
   };
+
+  const columns = [
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      render: (text: any) => <>{text}</>,
+    },
+    {
+      title: "Payment Status",
+      dataIndex: "payment_status",
+      key: "payment_status",
+      render: (text: any) => (
+        <Tag color={text === "unpaid" ? "warning" : "success"}> {text}</Tag>
+      ),
+    },
+
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (text: any) => (
+        <Tag color={text === "pending" ? "blue" : "success"}>{text}</Tag>
+      ),
+    },
+
+    {
+      title: "Action",
+      key: "action",
+      align: "center",
+      render: (_: any, record: any) => (
+        <Link to={`${record.id}`}>
+          <Button>Edit</Button>
+        </Link>
+      ),
+    },
+  ] as any;
 
   return (
     <IndexPageLayout>
-      <HeaderBar title="Reservation" btnData={[<Button>Report Data</Button>]} />
+      <HeaderBar
+        title="Booking Management"
+        btnData={[
+          <Link to="new">
+            <Button>Add Booking</Button>
+          </Link>,
+        ]}
+      />
       <div className="reserv-container">
         <div className="reserv-box">
-          <Typography.Title
-            level={4}
-            style={{ marginTop: "10px", marginBottom: "20px" }}
+          <div
+            style={{
+              height: "100%",
+              padding: "0px 10px 10px 10px",
+            }}
           >
-            Table
-          </Typography.Title>
-          <Row gutter={20} style={{ minWidth: "95%" }}>
-            <Col xs={24} sm={24} md={24} lg={12}>
-              <Row
-                justify="center"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  background: "#ffffff",
-                  borderRadius: "8px",
-                }}
-              >
-                Stage
-              </Row>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography.Title level={5} style={{ margin: "0px" }}>
+                Search
+              </Typography.Title>
 
-              <div className="grid-container">
-                {Mockup.tables.map((d, index: any) => (
-                  <div key={d.id} className="grid-item">
-                    <Link to={`${d.id}`}>
-                      <div
-                        className="seat"
-                        style={{
-                          width: "100%",
-                          height: "70px",
-                          color: "#000000",
-                          background: exportColorWithStatus(d.status),
-                        }}
-                      >
-                        Table
-                        <br />
-                        {d.name}
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
+              <Input placeholder="email or firstname" onChange={handleSearch} />
 
-              <Row
-                justify="center"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  background: "#ffffff",
-                  borderRadius: "8px",
-                }}
-              >
-                Door
-              </Row>
-            </Col>
-            <Col xs={24} sm={24} md={24} lg={12}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  paddingLeft: "2rem",
-                  paddingRight: "2rem",
-                }}
-              >
-                <Typography.Text
-                  style={{
-                    padding: "8px",
-                  }}
-                >
-                  Mention
-                </Typography.Text>
-                {mentions.map((d: any) => (
-                  <Space direction="horizontal" style={{ marginTop: "12px" }}>
-                    <div
-                      className="seat"
-                      style={{
-                        background: d.color,
-                        textAlign: "center",
-                        cursor: "default",
-                      }}
-                    >
-                      Table
-                      <br />
-                      Ax
-                    </div>
-                    {d.text}
-                  </Space>
-                ))}
-
-                <Row
-                  justify="center"
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    background: "#ffffff",
-                    borderRadius: "8px",
-                    marginTop: "20px",
-                  }}
-                >
-                  <Col span={12}>
-                    <Col style={{ textAlign: "center" }}>
-                      <Typography.Title style={{ margin: "0px" }} level={4}>
-                        666 people
-                      </Typography.Title>
-                      <br />
-                      amount of registered
-                    </Col>
-                  </Col>
-                  <Col span={12}>
-                    <Button
-                      block
-                      style={{ height: "70px", background: "#9C9D9D" }}
-                    >
-                      -
-                    </Button>
-                  </Col>
-                </Row>
-              </div>
-            </Col>
-          </Row>
+              <div className="bar-table-name ">Booking Management list</div>
+            </div>
+            <Table
+              columns={columns}
+              dataSource={searchTerms}
+              rowKey="id"
+              scroll={{ y: "calc(100vh - 440px)", x: "max-content" }}
+              pagination={{
+                pageSize: 10,
+              }}
+            />
+          </div>
         </div>
       </div>
     </IndexPageLayout>

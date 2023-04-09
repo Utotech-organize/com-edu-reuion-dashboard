@@ -6,27 +6,31 @@ import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
 
-export async function userIndexLoader() {
-  try {
-    const users = await API.getUsers();
+export async function customerIndexLoader({ request, params }: any) {
+  //example
 
-    return { users: users.data.data };
+  try {
+    const customers = await API.getCustomers();
+    console.log({ customers });
+
+    return { customers: customers.data.data };
   } catch (e: any) {
-    return { users: [] };
+    // return redirect("/login");
+    return { customers: [] };
   }
 }
 
-export const UserIndex = () => {
-  const { users } = useLoaderData() as any;
-
-  const [usersData, setUsersData] = React.useState(users);
+export const CustomerIndex = () => {
+  const { customers } = useLoaderData() as any;
+  console.log({ customers });
+  const [searchTerms, setSearchTerms] = React.useState(customers);
 
   const handleSearch = (e: any) => {
-    setUsersData(
-      users.filter(
+    setSearchTerms(
+      customers.filter(
         (data: any) =>
           data.email.includes(e.target.value) ||
-          data.name.includes(e.target.value)
+          data.first_name.includes(e.target.value)
       )
     );
   };
@@ -39,15 +43,19 @@ export const UserIndex = () => {
       render: (text: any) => <>{text}</>,
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "First Name",
+      dataIndex: "first_name",
+      key: "first_name",
     },
-
     {
-      title: "Phone",
-      dataIndex: "tel",
-      key: "tel",
+      title: "Last Name",
+      dataIndex: "last_name",
+      key: "last_name",
+    },
+    {
+      title: "Access Role",
+      dataIndex: "role",
+      key: "role",
     },
 
     {
@@ -65,10 +73,10 @@ export const UserIndex = () => {
   return (
     <IndexPageLayout>
       <HeaderBar
-        title="User Management"
+        title="Customer Management"
         btnData={[
           <Link to="new">
-            <Button>Add User</Button>
+            <Button>Add Customer</Button>
           </Link>,
         ]}
       />
@@ -92,11 +100,11 @@ export const UserIndex = () => {
 
               <Input placeholder="email or firstname" onChange={handleSearch} />
 
-              <div className="bar-table-name ">User Management list</div>
+              <div className="bar-table-name ">Customers Management list</div>
             </div>
             <Table
               columns={columns}
-              dataSource={usersData}
+              dataSource={searchTerms}
               rowKey="id"
               scroll={{ y: "calc(100vh - 370px)", x: "max-content" }}
             />
