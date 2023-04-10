@@ -64,6 +64,12 @@ export const UserEdit = () => {
   const submit = useSubmit();
   const action = useActionData() as any;
 
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const handleLoader = (status: boolean) => {
+    setLoading(status);
+  };
+
   const [form] = Form.useForm();
 
   const handleSubmit = (values: any) => {
@@ -77,7 +83,18 @@ export const UserEdit = () => {
       okText: "Confirm",
 
       onOk() {
-        submit(values, { method: "put" });
+        const { fileList, ...value } = values;
+
+        const payload = {
+          ...value,
+          image_url: fileList.length
+            ? fileList[0].url
+            : fileList && fileList.file
+            ? fileList.file
+            : "",
+        };
+
+        submit(payload, { method: "put" });
       },
       cancelText: "Cancel",
       onCancel() {},
@@ -103,8 +120,6 @@ export const UserEdit = () => {
   };
 
   React.useEffect(() => {
-    form.setFieldsValue(user);
-
     if (action && action.status) {
       onResponse(action.status, action.message);
 
@@ -132,10 +147,13 @@ export const UserEdit = () => {
           }}
         >
           <UserForm
+            data={user}
+            loading={loading}
             edit={true}
             title="User Details"
             form={form}
             onFinished={handleSubmit}
+            handleLoader={handleLoader}
             footer={
               <Row
                 justify="end"

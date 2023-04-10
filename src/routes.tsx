@@ -36,13 +36,14 @@ import {
   NewBookingSingleLoader,
   NewBookingSingleAction,
   reservationPaymentLoader,
+  reservationPaymentAction,
 } from "./pages/reservation";
 
 import { PaymentIndex, PaymentEdit, PaymentSuccess } from "./pages/payment";
 
 import { paymentIndexLoader, paymentSuccessLoader } from "./pages/payment";
 
-import { deskIndexLoader, editDeskLoader } from "./pages/desk";
+import { deskIndexAction, deskIndexLoader, editDeskLoader } from "./pages/desk";
 import { DeskIndex, EditDesk } from "./pages/desk";
 
 export const router = createBrowserRouter([
@@ -59,6 +60,7 @@ export const router = createBrowserRouter([
       {
         path: "/desk",
         loader: deskIndexLoader,
+        action: deskIndexAction,
         element: <DeskIndex />,
       },
       {
@@ -122,6 +124,7 @@ export const router = createBrowserRouter([
       {
         path: "/booking/:id",
         loader: reservationPaymentLoader,
+        action: reservationPaymentAction,
         element: <ReservationPayment />,
       },
 

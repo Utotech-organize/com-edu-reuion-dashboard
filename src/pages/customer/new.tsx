@@ -9,11 +9,9 @@ import * as API from "../../api";
 export async function newCustomerAction({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
-  console.log({ submitData });
 
   try {
     const { data } = await API.createCustomer(submitData);
-    console.log({ data });
 
     return redirect(`/customer/${data.id}`);
   } catch (e: any) {
@@ -37,7 +35,7 @@ export const CustomerNew = () => {
       okText: "Confirm",
 
       onOk() {
-        submit(values, { method: "post" });
+        submit({ ...values, channel: "dashboard" }, { method: "post" });
       },
       cancelText: "Cancel",
       onCancel() {},

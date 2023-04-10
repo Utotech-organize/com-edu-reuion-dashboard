@@ -2,6 +2,7 @@ import { Button, Col, Form, Input, Row, Select, Space, Typography } from "antd";
 import React from "react";
 
 interface CustomerFormProps {
+  data?: any;
   edit?: boolean;
   title: string;
   form: any;
@@ -12,7 +13,7 @@ interface CustomerFormProps {
 export const CustomerForm: React.FC<CustomerFormProps> = (
   props: CustomerFormProps
 ) => {
-  const { title, form, footer, onFinished } = props;
+  const { data, title, form, footer, onFinished } = props;
 
   return (
     <Form
@@ -24,6 +25,7 @@ export const CustomerForm: React.FC<CustomerFormProps> = (
       layout="horizontal"
       labelCol={{ span: 3 }}
       labelAlign="left"
+      initialValues={{ ...data }}
     >
       <Typography.Title level={4} style={{ marginTop: "0px" }}>
         {title}
@@ -36,7 +38,7 @@ export const CustomerForm: React.FC<CustomerFormProps> = (
         <Input />
       </Form.Item>
 
-      <Row>
+      <Row gutter={20}>
         <Col xs={24} sm={24} md={12} lg={12}>
           <Form.Item
             label="First Name"
@@ -69,15 +71,20 @@ export const CustomerForm: React.FC<CustomerFormProps> = (
       >
         <Input />
       </Form.Item>
+      <Form.Item
+        label="Generation"
+        name="generation"
+        rules={[{ message: "Please input your Generation!" }]}
+      >
+        <Input placeholder="TCT,CED" />
+      </Form.Item>
 
       <Form.Item
         label="Working Address"
         name="information"
-        rules={[
-          { required: true, message: "Please input your Working Address!" },
-        ]}
+        rules={[{ message: "Please input your Working Address!" }]}
       >
-        <Input />
+        <Input.TextArea cols={4} />
       </Form.Item>
 
       {footer}

@@ -10,6 +10,7 @@ import {
   Upload,
   message,
   UploadProps,
+  Image,
   Tag,
 } from "antd";
 import { Link, useLoaderData } from "react-router-dom";
@@ -28,8 +29,8 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
 export async function paymentSuccessLoader({ request, params }: any) {
   try {
     const booking = await API.getBooking(params.id);
-    const customer = await API.getCustomer(booking.data.data.customer);
-    const desk = await API.getDesk(booking.data.data.desk);
+    const customer = await API.getCustomer(booking.data.data.customer.id);
+    const desk = await API.getDesk(booking.data.data.desk.id);
 
     return {
       customer: customer.data.data,
@@ -72,21 +73,46 @@ export const PaymentSuccess = () => {
                 <Space size="small" style={{ marginBottom: "10px" }}>
                   <Tag
                     color={
-                      booking.payment_status === "unpaid"
+                      booking?.payment_status === "unpaid"
                         ? "warning"
                         : "success"
                     }
                   >
-                    {booking.payment_status}
+                    {booking?.payment_status}
                   </Tag>
                   <Tag
-                    color={booking.status === "pending" ? "blue" : "success"}
+                    color={booking?.status === "pending" ? "blue" : "success"}
                   >
-                    {booking.status}
+                    {booking?.status}
                   </Tag>
                 </Space>
               </Space>
               <div
+                style={{
+                  width: "100%",
+                  height: "200px",
+                  background: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image src={booking.qrcode_image} />
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  height: "200px",
+                  background: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image src={booking.image_url} />
+              </div>
+
+              {/* <div
                 style={{
                   width: "100%",
                   height: "300px",
@@ -96,8 +122,8 @@ export const PaymentSuccess = () => {
                   alignItems: "center",
                 }}
               >
-                QR Code
-              </div>
+                <Image src={booking.qrcode_image} />
+              </div> */}
             </Col>
             <Col xs={24} sm={24} md={24} lg={12}>
               <div
@@ -117,6 +143,7 @@ export const PaymentSuccess = () => {
                   layout="vertical"
                   initialValues={{
                     ...customer,
+                    total: booking.total,
                   }}
                 >
                   <Typography.Title
@@ -144,7 +171,7 @@ export const PaymentSuccess = () => {
                     <Input disabled />
                   </Form.Item>
 
-                  <Form.Item label="Table No." name="tableNo">
+                  <Form.Item label="Chair No." name="no">
                     <Input disabled />
                   </Form.Item>
                   <Row gutter={20}>

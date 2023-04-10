@@ -13,3 +13,11 @@ export async function getDesk(id: any) {
     url: `/desks/${id}`,
   });
 }
+
+export async function createDesk(data: any) {
+  return client({
+    method: "POST",
+    url: `/desks/new`,
+    data,
+  });
+}

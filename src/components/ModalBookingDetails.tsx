@@ -3,7 +3,6 @@ import React from "react";
 
 interface ModalBookingDetailsProps {
   open: boolean;
-  imageUrl: any[];
   onCancel: () => void;
   handleFinishedModal: () => void;
 }
@@ -11,7 +10,7 @@ interface ModalBookingDetailsProps {
 export const ModalBookingDetails: React.FC<ModalBookingDetailsProps> = (
   props: ModalBookingDetailsProps
 ) => {
-  const { open, imageUrl, onCancel, handleFinishedModal } = props;
+  const { open, onCancel, handleFinishedModal } = props;
   return (
     <Modal
       title="Booking Details"
@@ -21,18 +20,13 @@ export const ModalBookingDetails: React.FC<ModalBookingDetailsProps> = (
         <Button key="back" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button
-          key="submit"
-          disabled={!imageUrl.length}
-          type="primary"
-          onClick={handleFinishedModal}
-        >
+        <Button key="submit" type="primary" onClick={handleFinishedModal}>
           Submit
         </Button>,
       ]}
     >
       <Divider />
-      <Form.Item label="Seat NO." name="no" labelCol={{ span: 4 }}>
+      <Form.Item label="Chair No." name="no" labelCol={{ span: 4 }}>
         <Input disabled />
       </Form.Item>
 
@@ -40,7 +34,7 @@ export const ModalBookingDetails: React.FC<ModalBookingDetailsProps> = (
         <Input disabled />
       </Form.Item>
 
-      <Form.Item label="Price / Seat" name="unitprice" labelCol={{ span: 4 }}>
+      <Form.Item label="Price / Chair" name="unitprice" labelCol={{ span: 4 }}>
         <Input disabled />
       </Form.Item>
 

@@ -1,10 +1,11 @@
 import React from "react";
 import { Button, Input, Table, Tag, Typography } from "antd";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, redirect, useLoaderData, useSubmit } from "react-router-dom";
 
 import { CreateDeskModal, HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
+import numeral from "numeral";
 
 export async function deskIndexLoader() {
   try {
@@ -16,41 +17,66 @@ export async function deskIndexLoader() {
   }
 }
 
+export async function deskIndexAction({ request }: any) {
+  const formData = await request.formData();
+  const submitData = Object.fromEntries(formData);
+  const data = JSON.parse(submitData.data);
+  try {
+    const res = await API.createDesk(data);
+
+    return redirect(`/desk/${res.data.data.id}`);
+  } catch (e: any) {
+    return { error: e.response.data.message };
+  }
+}
+
 export const DeskIndex = () => {
   const { desks } = useLoaderData() as any;
 
   const [searchTerms, setSearchTerms] = React.useState(desks);
   const [modal, setModal] = React.useState<boolean>(false);
+  const submit = useSubmit();
 
   const handleSearch = (e: any) => {
     setSearchTerms(
-      desks.filter(
-        (data: any) =>
-          data.email.includes(e.target.value) ||
-          data.first_name.includes(e.target.value)
+      desks.filter((data: any) =>
+        (data.label ?? "").toLowerCase().includes(e.target.value.toLowerCase())
       )
     );
   };
 
   const handleFinishedModal = (values: any) => {
-    console.log({ values });
     const { chair_price, ...value } = values;
-    const allLabel = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+    const allLabel = [
+      { label: "A", chair_no: "one" },
+      { label: "B", chair_no: "two" },
+      { label: "C", chair_no: "three" },
+      { label: "D", chair_no: "four" },
+      { label: "E", chair_no: "five" },
+      { label: "F", chair_no: "six" },
+      { label: "G", chair_no: "seven" },
+      { label: "H", chair_no: "eight" },
+      { label: "I", chair_no: "nine" },
+      { label: "J", chair_no: "ten" },
+    ];
 
     const chairs = allLabel.map((d: any) => {
       return {
-        label: d,
+        label: d.label,
         status: "available",
-        chair_price: chair_price,
+        price: chair_price,
+        chair_no: d.chair_no,
       };
     });
 
     const payload = {
       ...value,
       chairs: chairs,
+      status: "available",
+      chair_price: chair_price,
     };
 
-    console.log({ payload });
+    submit({ data: JSON.stringify(payload) }, { method: "post" });
   };
 
   const columns = [
@@ -58,17 +84,20 @@ export const DeskIndex = () => {
       title: "Label",
       dataIndex: "label",
       key: "label",
-      render: (text: any) => <>{text}</>,
+      render: (text: any) => <Tag color="#f50">{text}</Tag>,
     },
     {
       title: "Price / Chair",
-      dataIndex: "unitPrice",
-      key: "unitPrice",
+      dataIndex: "chair_price",
+      key: "chair_price",
+      width: 150,
+      render: (text: any) => <>{numeral(text).format("0,0.00")}</>,
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
+      render: (text: any) => <>{numeral(text).format("0,0.00")}</>,
     },
     {
       title: "Status",
@@ -120,7 +149,7 @@ export const DeskIndex = () => {
                 Search
               </Typography.Title>
 
-              <Input placeholder="label" onChange={handleSearch} />
+              <Input placeholder="Label" onChange={handleSearch} />
 
               <div className="bar-table-name">Desk Management list</div>
             </div>

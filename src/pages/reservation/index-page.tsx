@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Input, Table, Tag, Typography } from "antd";
 import { Link, useLoaderData } from "react-router-dom";
-
+import numeral from "numeral";
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
@@ -22,7 +22,6 @@ export async function BookingIndexLoader() {
 
 export const BookingIndex = () => {
   const { bookings } = useLoaderData() as any;
-  console.log({ bookings });
 
   const [searchTerms, setSearchTerms] = React.useState(bookings);
 
@@ -30,23 +29,72 @@ export const BookingIndex = () => {
     setSearchTerms(
       bookings.filter(
         (data: any) =>
-          data.email.includes(e.target.value) ||
-          data.first_name.includes(e.target.value)
+          (data.customer?.first_name ?? "")
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase()) ||
+          (data.desk?.label ?? "")
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase())
       )
     );
   };
 
   const columns = [
     {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      width: 50,
+      render: (text: any) => <>{text}</>,
+    },
+    {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      render: (text: any) => <>{text}</>,
+      width: 150,
+      render: (_: any, render: any) => render.customer.email,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (_: any, record: any) => (
+        <>
+          {record.customer.first_name} {record.customer.last_name}
+        </>
+      ),
+    },
+    {
+      title: "Phone",
+      dataIndex: "tel",
+      key: "tel",
+      render: (_: any, record: any) => (
+        <>{record.customer.tel ? record.customer.tel : "-"}</>
+      ),
+    },
+    {
+      title: "Table No.",
+      dataIndex: "label",
+      key: "label",
+      width: 100,
+      align: "center",
+      render: (_: any, record: any) => (
+        <Tag color="#f50">{record.desk.label}</Tag>
+      ),
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+      width: 100,
+      render: (text: any) => <>{numeral(text).format("0,0.00")}</>,
     },
     {
       title: "Payment Status",
       dataIndex: "payment_status",
       key: "payment_status",
+      width: 130,
+      align: "center",
       render: (text: any) => (
         <Tag color={text === "unpaid" ? "warning" : "success"}> {text}</Tag>
       ),
@@ -56,6 +104,7 @@ export const BookingIndex = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      align: "center",
       render: (text: any) => (
         <Tag color={text === "pending" ? "blue" : "success"}>{text}</Tag>
       ),
@@ -101,7 +150,10 @@ export const BookingIndex = () => {
                 Search
               </Typography.Title>
 
-              <Input placeholder="email or firstname" onChange={handleSearch} />
+              <Input
+                placeholder="First Name or Table No."
+                onChange={handleSearch}
+              />
 
               <div className="bar-table-name ">Booking Management list</div>
             </div>

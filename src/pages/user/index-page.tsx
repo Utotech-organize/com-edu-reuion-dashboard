@@ -33,15 +33,28 @@ export const UserIndex = () => {
 
   const columns = [
     {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      render: (text: any) => <>{text}</>,
+    },
+    {
       title: "Email",
       dataIndex: "email",
       key: "email",
       render: (text: any) => <>{text}</>,
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "First Name",
+      dataIndex: "first_name",
+      key: "first_name",
+      width: 150,
+    },
+    {
+      title: "Last Name",
+      dataIndex: "last_name",
+      key: "last_name",
+      width: 150,
     },
 
     {
@@ -90,7 +103,10 @@ export const UserIndex = () => {
                 Search
               </Typography.Title>
 
-              <Input placeholder="email or firstname" onChange={handleSearch} />
+              <Input
+                placeholder="Email or First Name"
+                onChange={handleSearch}
+              />
 
               <div className="bar-table-name ">User Management list</div>
             </div>

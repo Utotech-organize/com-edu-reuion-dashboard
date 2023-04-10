@@ -64,7 +64,7 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
             </Typography.Title>
 
             <Avatar
-              src={me && me.user ? me.user.photo_url : ""}
+              src={me && me.user ? me.user.image_url : ""}
               style={{ background: "white", marginTop: "20px" }}
             />
 
@@ -73,7 +73,9 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
                 color: "white",
               }}
             >
-              {me && me.user ? me.user.name : "-"}
+              {me && me.user
+                ? `${me.user?.first_name} ${me.user?.last_name}`
+                : "-"}
             </Typography.Text>
 
             <Divider />

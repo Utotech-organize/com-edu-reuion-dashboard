@@ -30,7 +30,6 @@ import {
 import { IndexPageLayout } from "../../layout";
 import { AuthContext } from "../../context/AuthContext";
 import * as API from "../../api";
-import { BookingForm } from "../../components/BookingForm";
 
 export async function editDeskLoader({ request, params }: any) {
   try {
@@ -50,29 +49,9 @@ export const EditDesk = () => {
   const navigate = useNavigate();
   const action = useActionData() as any;
 
-  const [modal, setModal] = React.useState(false);
-  const [imageUrl, setImageUrl] = React.useState<any>([]);
-  const [imageFile, setImageFile] = React.useState<any>({});
   const { onResponse } = useContext(AuthContext);
 
-  const onFinished = (values: any) => {
-    // const seatValues = desk.chairs
-    //   .filter((d: any) => selectedSeat.indexOf(d.id) > -1)
-    //   .map((c: any) => c.label);
-    // console.log({ seatValues });
-    // form.setFieldsValue({
-    //   ...values,
-    //   customer: selectedCustomer.id,
-    //   desk_id: desk.id,
-    //   chairs_id: selectedSeat,
-    //   no: String(seatValues),
-    //   amount: selectedSeat.length,
-    //   unitprice: 350,
-    //   total:
-    //     selectedSeat.length === 10 ? desk.price : selectedSeat.length * 350,
-    // });
-    // setModal(true);
-  };
+  const onFinished = (values: any) => {};
 
   const exportColorWithStatus = (status: any) => {
     let color = "";
@@ -183,7 +162,7 @@ export const EditDesk = () => {
                   </Form.Item>
 
                   <Form.Item
-                    label="Price / Seat"
+                    label="Price / Chair"
                     name="chair_price"
                     labelCol={{ span: 6 }}
                     rules={[

@@ -7,22 +7,17 @@ import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
 
 export async function customerIndexLoader({ request, params }: any) {
-  //example
-
   try {
     const customers = await API.getCustomers();
-    console.log({ customers });
 
     return { customers: customers.data.data };
   } catch (e: any) {
-    // return redirect("/login");
     return { customers: [] };
   }
 }
 
 export const CustomerIndex = () => {
   const { customers } = useLoaderData() as any;
-  console.log({ customers });
   const [searchTerms, setSearchTerms] = React.useState(customers);
 
   const handleSearch = (e: any) => {
@@ -37,27 +32,49 @@ export const CustomerIndex = () => {
 
   const columns = [
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      width: 50,
       render: (text: any) => <>{text}</>,
     },
     {
-      title: "First Name",
-      dataIndex: "first_name",
-      key: "first_name",
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      render: (text: any) => <>{text ? text : `-`}</>,
     },
     {
-      title: "Last Name",
-      dataIndex: "last_name",
-      key: "last_name",
-    },
-    {
-      title: "Access Role",
-      dataIndex: "role",
-      key: "role",
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (_: any, record: any) => (
+        <>
+          {record.first_name} {record.last_name}
+        </>
+      ),
     },
 
+    {
+      title: "Phone",
+      dataIndex: "tel",
+      key: "tel",
+    },
+
+    {
+      title: "Channel",
+      dataIndex: "channel",
+      key: "channel",
+      width: 150,
+      render: (text: any) => text,
+    },
+    {
+      title: "Generation",
+      dataIndex: "generation",
+      key: "generation",
+      width: 120,
+      render: (text: any) => <>{text ? text : `-`}</>,
+    },
     {
       title: "Action",
       key: "action",
@@ -98,7 +115,10 @@ export const CustomerIndex = () => {
                 Search
               </Typography.Title>
 
-              <Input placeholder="email or firstname" onChange={handleSearch} />
+              <Input
+                placeholder="Email or First Name"
+                onChange={handleSearch}
+              />
 
               <div className="bar-table-name ">Customers Management list</div>
             </div>

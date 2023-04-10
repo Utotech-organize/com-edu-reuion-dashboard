@@ -37,7 +37,7 @@ export const Login = () => {
       });
 
       if (action.status === "success") {
-        navigate("/dashboard");
+        navigate("/analytic");
       }
     }
   }, [action]);
@@ -94,11 +94,9 @@ export const Login = () => {
                   marginTop: "24px",
                 }}
               >
-                {/* <Link to="/dashboard"> */}
                 <Button type="primary" htmlType="submit">
                   Submit
                 </Button>
-                {/* </Link> */}
               </Form.Item>
             </Row>
           </Form>

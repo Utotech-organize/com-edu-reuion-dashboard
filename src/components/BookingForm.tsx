@@ -1,19 +1,22 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Input, Row, Space, Upload } from "antd";
+import { Button, Col, Form, Input, Row, Space } from "antd";
 import React from "react";
+import { UploadImage } from "./UploadImage";
 
 interface BookingFormProps {
   desk?: any;
   selectedSeat?: any[];
-  imageUrl?: any[];
   handleBooking?: (mode: string) => void;
-  handleChange?: (image: any) => void;
 }
 
 export const BookingForm: React.FC<BookingFormProps> = (
   props: BookingFormProps
 ) => {
-  const { desk, selectedSeat, imageUrl, handleBooking, handleChange } = props;
+  const { desk, selectedSeat, handleBooking } = props;
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const handleLoader = (status: boolean) => {
+    setLoading(status);
+  };
 
   return (
     <React.Fragment>
@@ -51,39 +54,6 @@ export const BookingForm: React.FC<BookingFormProps> = (
           marginTop: "20px",
         }}
       >
-        <Col span={12}>
-          <Col style={{ textAlign: "center" }}>
-            <Form.Item
-              labelCol={{ span: 4 }}
-              style={{
-                textAlign: "center",
-              }}
-            >
-              <Upload
-                // multiple={true}
-                // onPreview={handlePreview}
-                listType="picture-card"
-                accept="image/*"
-                beforeUpload={(file) => {
-                  return false;
-                }}
-                onChange={handleChange}
-                style={{
-                  width: 140,
-                  height: 200,
-                }}
-              >
-                {!imageUrl?.length ? (
-                  <div>
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
-                  </div>
-                ) : null}
-              </Upload>
-            </Form.Item>
-          </Col>
-        </Col>
-
         <Col
           span={12}
           style={{
@@ -100,7 +70,7 @@ export const BookingForm: React.FC<BookingFormProps> = (
             <Button
               htmlType="submit"
               onClick={() => handleBooking?.("some")}
-              disabled={selectedSeat?.length === 0 || !imageUrl?.length}
+              disabled={selectedSeat?.length === 0 || loading}
               block
               style={{
                 background: "#303E57",
@@ -115,7 +85,8 @@ export const BookingForm: React.FC<BookingFormProps> = (
               onClick={() => handleBooking?.("all")}
               disabled={
                 (desk && desk.status === "pending") ||
-                (desk && desk.status === "unavailable")
+                (desk && desk.status === "unavailable") ||
+                loading
               }
               block
               style={{

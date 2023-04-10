@@ -289,7 +289,7 @@ export const PaymentEdit = () => {
                           block
                           style={{ background: "#9A0000", color: "#ffffff" }}
                         >
-                          Cancel Reservation
+                          Cancel Booking
                         </Button>
                       </Space>
                     </Col>

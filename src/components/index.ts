@@ -5,3 +5,4 @@ export * from "./TableSelect";
 export * from "./Mention";
 export * from "./ModalBookingDetails";
 export * from "./CreateDeskModal";
+export * from "./UploadImage";

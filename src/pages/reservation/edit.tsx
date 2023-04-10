@@ -10,18 +10,26 @@ import {
   Tag,
   Upload,
 } from "antd";
-import { Link, Navigate, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  Link,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigate,
+  useSubmit,
+} from "react-router-dom";
 
-import { HeaderBar, Mention, TableSelect } from "../../components";
+import { HeaderBar, Mention, TableSelect, UploadImage } from "../../components";
+import { AuthContext } from "../../context/AuthContext";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
-import { AuthContext } from "../../context/AuthContext";
+import FormItem from "antd/es/form/FormItem";
 
 export async function reservationPaymentLoader({ request, params }: any) {
   try {
     const booking = await API.getBooking(params.id);
-    const customer = await API.getCustomer(booking.data.data.customer);
-    const desk = await API.getDesk(booking.data.data.desk);
+    const customer = await API.getCustomer(booking.data.data.customer.id);
+    const desk = await API.getDesk(booking.data.data.desk.id);
 
     return {
       customer: customer.data.data,
@@ -33,25 +41,55 @@ export async function reservationPaymentLoader({ request, params }: any) {
   }
 }
 
+export async function reservationPaymentAction({ request, params }: any) {
+  const formData = await request.formData();
+  const submitData = Object.fromEntries(formData);
+
+  try {
+    const { data } = await API.editBooking(params.id, submitData);
+
+    return redirect(`/payment/${data.data.id}`);
+  } catch (e: any) {
+    return { status: "error", message: "Can not Approve Payment!" };
+  }
+}
+
 export const ReservationPayment = () => {
   const { customer, booking, desk } = useLoaderData() as any;
   const { onResponse } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [selectedSeat, setSelectedSeat] = React.useState<any[]>([]);
 
-  const handleApprovePayment = async () => {
-    try {
-      await API.editBooking(booking.id, {
-        payment_status: "paid",
-        status: "approve",
-      });
+  const selectedSeat = booking.desk.chairs.map((d: any) => d.id);
+  const action = useActionData() as any;
+  const submit = useSubmit();
 
-      onResponse("success", "Approve Payment Successfully!");
-      navigate(`/payment/${booking.id}`);
-    } catch (e: any) {
-      onResponse("error", "Can not Approve Payment!");
-    }
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const handleLading = (status: boolean) => {
+    setLoading(status);
   };
+
+  const handleApprovePayment = async (values: any) => {
+    const { fileList, ...value } = values;
+
+    const payload = {
+      payment_status: "paid",
+      status: "approve",
+      image_url: fileList.length
+        ? fileList[0].url
+        : fileList && fileList.file
+        ? fileList.file
+        : "",
+    };
+
+    submit(payload, { method: "put" });
+  };
+
+  React.useEffect(() => {
+    if (action && action.message === "Can not Approve Payment!") {
+      onResponse(action.status, action.message);
+    }
+  }, [action]);
 
   return (
     <IndexPageLayout>
@@ -70,10 +108,23 @@ export const ReservationPayment = () => {
             autoComplete="off"
             colon={false}
             layout="vertical"
+            onFinish={handleApprovePayment}
             initialValues={{
               ...customer,
+              chairs_no: booking.desk.chairs
+                .map((d: any) => d.label)
+                .toString(),
+              chair_price: booking.desk.chair_price,
+              total:
+                booking.desk.chairs.length === 10
+                  ? booking.desk.price
+                  : booking.desk.chairs.length * booking.desk.chair_price,
               payment_status: booking.payment_status,
               status: booking.status,
+              fileList:
+                booking && booking.image_url
+                  ? [{ uid: "-1", url: booking.image_url }]
+                  : [],
             }}
           >
             <Row gutter={20} style={{ minWidth: "95%" }}>
@@ -145,12 +196,12 @@ export const ReservationPayment = () => {
                   <Input disabled />
                 </Form.Item>
 
-                <Form.Item label="Table No." name="tableNo">
+                <Form.Item label="Chair No." name="chairs_no">
                   <Input disabled />
                 </Form.Item>
                 <Row gutter={20}>
                   <Col span={12}>
-                    <Form.Item label="Amount" name="amount">
+                    <Form.Item label="Price / Chair" name="chair_price">
                       <Input disabled />
                     </Form.Item>
                   </Col>
@@ -172,15 +223,16 @@ export const ReservationPayment = () => {
                 >
                   <Col span={12}>
                     <Col style={{ textAlign: "center" }}>
-                      <Form.Item name="slip">
-                        <Upload
-                          listType="picture-card"
-                          accept="image/*"
-                          beforeUpload={(file) => {
-                            return false;
-                          }}
-                        ></Upload>
-                      </Form.Item>
+                      <UploadImage
+                        data={
+                          booking && booking.image_url
+                            ? [{ uid: "-1", url: booking.image_url }]
+                            : []
+                        }
+                        loading={loading}
+                        required={true}
+                        handleLoader={handleLading}
+                      />
                     </Col>
                   </Col>
                   {booking.payment_status === "unpaid" && (
@@ -192,13 +244,15 @@ export const ReservationPayment = () => {
                           width: "100%",
                         }}
                       >
-                        <Button
-                          block
-                          onClick={handleApprovePayment}
-                          style={{ background: "#303E57", color: "#ffffff" }}
-                        >
-                          Approve Payment
-                        </Button>
+                        <Form.Item>
+                          <Button
+                            htmlType="submit"
+                            block
+                            style={{ background: "#303E57", color: "#ffffff" }}
+                          >
+                            Approve Payment
+                          </Button>
+                        </Form.Item>
 
                         {/* <Button
                         disabled

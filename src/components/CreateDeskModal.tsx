@@ -59,7 +59,7 @@ export const CreateDeskModal: React.FC<CreateDeskModalProps> = (
         </Form.Item>
 
         <Form.Item
-          label="Price / Seat"
+          label="Price / Chair"
           name="chair_price"
           labelCol={{ span: 6 }}
           rules={[{ required: true, message: "Please input Price / Chair!" }]}

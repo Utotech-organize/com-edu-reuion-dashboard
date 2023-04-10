@@ -1,30 +1,37 @@
+import React, { useContext } from "react";
 import { Button, Form, Modal, Row } from "antd";
-import { Link, redirect, useSubmit } from "react-router-dom";
+import { Link, redirect, useActionData, useSubmit } from "react-router-dom";
 
 import { HeaderBar, UserForm } from "../../components";
 import { IndexPageLayout } from "../../layout";
 
 import * as API from "../../api";
+import { AuthContext } from "../../context/AuthContext";
 
 export async function newUserAction({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
-  console.log({ submitData });
 
   try {
-    const { data } = await API.createUser(submitData);
-    console.log({ data });
+    const res = await API.createUser(submitData);
 
-    return redirect(`/user/${data.id}`);
+    return redirect(`/user/${res.data.data.id}`);
   } catch (e: any) {
-    return { error: e.response.data.message };
+    return { message: "Cannot create this user!", status: "error" };
   }
 }
 
 export const UserNew = () => {
   const [form] = Form.useForm();
-
   const submit = useSubmit();
+  const action = useActionData() as any;
+  const { onResponse } = useContext(AuthContext);
+
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const handleLoader = (status: boolean) => {
+    setLoading(status);
+  };
 
   const handleSubmit = (values: any) => {
     Modal.confirm({
@@ -37,12 +44,24 @@ export const UserNew = () => {
       okText: "Confirm",
 
       onOk() {
-        submit(values, { method: "post" });
+        const { fileList, ...value } = values;
+
+        const payload = {
+          ...value,
+          image_url: fileList.file ? fileList.file : "",
+        };
+        submit(payload, { method: "post" });
       },
       cancelText: "Cancel",
       onCancel() {},
     });
   };
+
+  React.useEffect(() => {
+    if (action && action.status) {
+      onResponse(action.status, action.message);
+    }
+  }, [action]);
 
   return (
     <IndexPageLayout>
@@ -62,9 +81,11 @@ export const UserNew = () => {
         }}
       >
         <UserForm
+          loading={loading}
           title="Add New User"
           form={form}
           onFinished={handleSubmit}
+          handleLoader={handleLoader}
           footer={
             <Row
               justify="end"

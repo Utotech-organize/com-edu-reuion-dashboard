@@ -18,7 +18,6 @@ export async function customerEditLoader({ request, params }: any) {
 
     return { customer: customer.data.data };
   } catch (e: any) {
-    // return redirect("/login");
     return { user: null };
   }
 }
@@ -26,11 +25,9 @@ export async function customerEditLoader({ request, params }: any) {
 export async function customerEditAction({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
-  console.log({ submitData });
 
   try {
     const res = await API.editCustomer(submitData, params.id);
-    console.log({ res });
 
     return {
       message: "Update Successfully!",
@@ -50,7 +47,6 @@ export const CustomerEdit = () => {
   const action = useActionData() as any;
 
   const [form] = Form.useForm();
-  console.log(action);
 
   const handleSubmit = (values: any) => {
     Modal.confirm({
@@ -89,8 +85,6 @@ export const CustomerEdit = () => {
   };
 
   React.useEffect(() => {
-    form.setFieldsValue(customer);
-
     if (action && action.status) {
       onResponse(action.status, action.message);
     }
@@ -101,7 +95,7 @@ export const CustomerEdit = () => {
       <HeaderBar
         title="User Management"
         btnData={[
-          <Link key="user-back" to="/user">
+          <Link key="user-back" to="/customer">
             <Button>Back</Button>
           </Link>,
         ]}
@@ -114,6 +108,7 @@ export const CustomerEdit = () => {
         }}
       >
         <CustomerForm
+          data={customer}
           edit={true}
           title="Customer Details"
           form={form}

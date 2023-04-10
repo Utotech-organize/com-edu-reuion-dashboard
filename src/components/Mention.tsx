@@ -1,13 +1,24 @@
 import { CopyOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Space, Typography, notification } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Row,
+  Space,
+  Typography,
+  notification,
+} from "antd";
 import React from "react";
 
 interface MentionProps {
+  selectedSeat?: any[];
   notShow?: boolean;
 }
 
 export const Mention: React.FC<MentionProps> = (props: MentionProps) => {
-  const { notShow } = props;
+  const { notShow, selectedSeat } = props;
   const mentions = [
     {
       text: "Seat is available.",
@@ -36,8 +47,8 @@ export const Mention: React.FC<MentionProps> = (props: MentionProps) => {
   };
 
   return (
-    <Row gutter={20}>
-      <Col xs={24} sm={24} md={24} lg={10}>
+    <Row gutter={5}>
+      <Col xs={24} sm={24} md={24} lg={9}>
         <Typography.Text
           style={{
             padding: "8px",
@@ -68,101 +79,46 @@ export const Mention: React.FC<MentionProps> = (props: MentionProps) => {
           </Space>
         ))}
       </Col>
+
       {!notShow && (
-        <Col xs={24} sm={24} md={24} lg={12}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              padding: "12px",
-              background: "#303E57",
-              borderRadius: "12px",
-              marginTop: "12px",
-            }}
-          >
-            <Row>
-              <Col span={10}>
-                <Typography.Title
-                  level={4}
-                  style={{
-                    color: "#F6B63B",
-                    marginTop: "12px",
-                  }}
-                >
-                  ชื่อธนาคาร
-                </Typography.Title>
-              </Col>
-              <Col span={14}>
-                <Typography.Title
-                  level={5}
-                  style={{
-                    color: "#F6B63B",
-                    marginTop: "16px",
-                  }}
-                >
-                  ธนาคารกรุงเทพ
-                </Typography.Title>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col span={10}>
-                <Typography.Title
-                  level={4}
-                  style={{
-                    color: "#F6B63B",
-                    marginTop: "12px",
-                  }}
-                >
-                  ชื่อบัญชี
-                </Typography.Title>
-              </Col>
-              <Col span={14}>
-                <Typography.Title
-                  level={5}
-                  style={{
-                    color: "#F6B63B",
-                    marginTop: "16px",
-                  }}
-                >
-                  <span>น.ส. ภัทรวาดี ชาตะ และ นาย วัชพล เหลาทอง</span>
-                </Typography.Title>
-              </Col>
-            </Row>
-
-            <Typography.Title
-              level={4}
-              style={{
-                color: "#F6B63B",
-                marginTop: "12px",
-              }}
-            >
-              เลขบัญชี
-            </Typography.Title>
-            <Row
-              style={{
-                background: "#ffffff",
-                borderRadius: "8px",
-              }}
-            >
-              <Col
-                span={20}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontSize: "18px",
-                }}
+        <Col xs={24} sm={24} md={24} lg={15}>
+          {selectedSeat?.length ? (
+            <Card title="Summary Booking">
+              <Form.Item
+                label="Price / Chair"
+                name="unitprice"
+                labelAlign="left"
+                labelCol={{ span: 8 }}
               >
-                123-456-7890
-              </Col>
-              <Col span={4}>
-                <Button block onClick={copy}>
-                  <CopyOutlined />
-                </Button>
-              </Col>
-            </Row>
-          </div>
+                <Input disabled />
+              </Form.Item>
+              <Form.Item
+                label="Chair No."
+                name="no"
+                labelAlign="left"
+                labelCol={{ span: 8 }}
+              >
+                <Input disabled />
+              </Form.Item>
+              <Form.Item
+                label="Amount"
+                name="amount"
+                labelAlign="left"
+                labelCol={{ span: 8 }}
+              >
+                <Input disabled />
+              </Form.Item>
+
+              <Form.Item
+                label="Total"
+                name="total"
+                labelAlign="left"
+                labelCol={{ span: 8 }}
+              >
+                <Input disabled />
+              </Form.Item>
+            </Card>
+          ) : null}
         </Col>
       )}
     </Row>
