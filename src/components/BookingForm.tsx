@@ -1,6 +1,6 @@
 import { Button, Col, Form, Input, Row, Space } from "antd";
 import React from "react";
-import { UploadImage } from "./UploadImage";
+// import { UploadImage } from "./UploadImage";
 
 interface BookingFormProps {
   desk?: any;
