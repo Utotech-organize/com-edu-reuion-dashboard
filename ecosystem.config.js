@@ -4,7 +4,7 @@ module.exports = {
       name: "com-edu-reunion-dashboard",
       script: "yarn",
       automation: false,
-      args: "run dev",
+      args: "run dev --host",
       env: {
         NODE_ENV: "development",
       },
