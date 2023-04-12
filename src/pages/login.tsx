@@ -37,7 +37,7 @@ export const Login = () => {
       });
 
       if (action.status === "success") {
-        navigate("/analytic");
+        navigate("/booking");
       }
     }
   }, [action]);

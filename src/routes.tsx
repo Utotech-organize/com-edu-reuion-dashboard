@@ -53,10 +53,10 @@ export const router = createBrowserRouter([
     loader: RootLoader,
     element: <Root />,
     children: [
-      {
-        path: "/analytic",
-        element: <DashboardIndex />,
-      },
+      // {
+      //   path: "/analytic",
+      //   element: <DashboardIndex />,
+      // },
       {
         path: "/desk",
         loader: deskIndexLoader,

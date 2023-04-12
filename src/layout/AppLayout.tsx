@@ -64,8 +64,14 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
             </Typography.Title>
 
             <Avatar
+              shape="square"
+              size={80}
               src={me && me.user ? me.user.image_url : ""}
-              style={{ background: "white", marginTop: "20px" }}
+              style={{
+                background: "white",
+                marginTop: "30px",
+                marginBottom: "10px",
+              }}
             />
 
             <Typography.Text
@@ -88,10 +94,20 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
           mode="inline"
           selectedKeys={[activeKey]}
           items={[
+            // { FIXME open when ready
+            //   key: "analytic",
+            //   icon: <Icon.PieChartOutlined />,
+            //   label: <Link to="/analytic">Analytic</Link>,
+            // },
             {
-              key: "analytic",
-              icon: <Icon.PieChartOutlined />,
-              label: <Link to="/analytic">Analytic</Link>,
+              key: "booking",
+              icon: <Icon.BookOutlined />,
+              label: <Link to="/booking">Booking</Link>,
+            },
+            {
+              key: "payment",
+              icon: <Icon.DollarOutlined />,
+              label: <Link to="/payment">Payment</Link>,
             },
             {
               key: "desk",
@@ -107,17 +123,6 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
               key: "customer",
               icon: <Icon.UsergroupAddOutlined />,
               label: <Link to="/customer">Customer Management</Link>,
-            },
-
-            {
-              key: "booking",
-              icon: <Icon.BookOutlined />,
-              label: <Link to="/booking">Booking</Link>,
-            },
-            {
-              key: "payment",
-              icon: <Icon.DollarOutlined />,
-              label: <Link to="/payment">Payment</Link>,
             },
           ]}
         />
@@ -155,7 +160,7 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
                   borderLeft: "2px solid #b4a8a8",
                 }}
               >
-                Logout
+                Logout <Icon.LogoutOutlined />
               </div>
             </Link>
           </div>
