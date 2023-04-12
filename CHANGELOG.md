@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/0.0.2...0.0.3) (2023-04-12)
+
+
+### Bug Fixes
+
+* **host:** added host in rundev ([fb03186](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/fb0318601a335f23f10e345b79126aa2a93b7820))
+
 ### 0.0.2 (2023-04-12)
 
 
