@@ -114,6 +114,7 @@ export const EditDesk = () => {
                   {desk.status}
                 </Tag>
               </Space>
+
               <TableSelect desk={desk} selectedSeat={[]} />
               <Mention notShow={true} />
             </Col>

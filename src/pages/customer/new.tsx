@@ -25,6 +25,10 @@ export const CustomerNew = () => {
   const submit = useSubmit();
 
   const handleSubmit = (values: any) => {
+    delete values.line_liff_id; //FIXME pho0m remove all line data in create because it can be show in get single
+    delete values.line_display_name;
+    delete values.line_photo_url;
+
     Modal.confirm({
       title: "Warning !",
       content: (

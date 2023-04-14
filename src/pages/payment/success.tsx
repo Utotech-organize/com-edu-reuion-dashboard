@@ -19,6 +19,8 @@ import { RcFile } from "rc-upload/lib/interface";
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
+import useCopyToClipboard from "../../components/CopyToClipboard";
+import { CopyOutlined } from "@ant-design/icons";
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -43,7 +45,13 @@ export async function paymentSuccessLoader({ request, params }: any) {
 }
 
 export const PaymentSuccess = () => {
+  const [value, copy] = useCopyToClipboard();
   const { customer, booking, desk } = useLoaderData() as any;
+
+  const swalCopy = () => {
+    copy(booking.slug);
+    console.log(booking.slug);
+  };
 
   return (
     <IndexPageLayout>
@@ -87,29 +95,40 @@ export const PaymentSuccess = () => {
                   </Tag>
                 </Space>
               </Space>
-              <div
-                style={{
-                  width: "100%",
-                  height: "200px",
-                  background: "white",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Image src={booking.qrcode_image} />
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  height: "200px",
-                  background: "white",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Image src={booking.image_url} />
+
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <div style={{ flexDirection: "column" }}>
+                  <h2>
+                    Booking ID
+                    <Button onClick={() => swalCopy()}>
+                      <CopyOutlined />
+                    </Button>
+                  </h2>
+                  <div
+                    style={{
+                      width: "100%",
+                      background: "white",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Image src={booking.qrcode_image} />
+                  </div>
+                </div>
+                <div style={{ padding: "20px" }}></div>
+                <div style={{ flexDirection: "column" }}>
+                  <h2>Receipt</h2>
+                  <div
+                    style={{
+                      width: "100%",
+                      background: "white",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Image src={booking.image_url} />
+                  </div>
+                </div>
               </div>
 
               {/* <div
@@ -125,6 +144,7 @@ export const PaymentSuccess = () => {
                 <Image src={booking.qrcode_image} />
               </div> */}
             </Col>
+
             <Col xs={24} sm={24} md={24} lg={12}>
               <div
                 style={{
@@ -144,6 +164,9 @@ export const PaymentSuccess = () => {
                   initialValues={{
                     ...customer,
                     total: booking.total,
+                    slug: booking.slug,
+                    chairs_label: booking.chairs_label,
+                    amount: booking.desk.chairs.length,
                   }}
                 >
                   <Typography.Title
@@ -155,6 +178,9 @@ export const PaymentSuccess = () => {
                   >
                     Booking Detail
                   </Typography.Title>
+                  <Form.Item label="Booking ID" name="slug">
+                    <Input disabled />
+                  </Form.Item>
                   <Row gutter={20}>
                     <Col xs={24} sm={24} md={24} lg={12}>
                       <Form.Item label="First Name" name="first_name">
@@ -171,7 +197,7 @@ export const PaymentSuccess = () => {
                     <Input disabled />
                   </Form.Item>
 
-                  <Form.Item label="Chair No." name="no">
+                  <Form.Item label="Chair No." name="chairs_label">
                     <Input disabled />
                   </Form.Item>
                   <Row gutter={20}>
