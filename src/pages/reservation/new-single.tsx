@@ -80,7 +80,7 @@ export const NewBookingSingle = () => {
 
   const handleFinishedModal = () => {
     const payload = {
-      customer: selectedCustomer.id,
+      customer_id: selectedCustomer.id,
       desk_id: desk.id,
       chairs_id: selectedSeat,
     };
@@ -96,9 +96,9 @@ export const NewBookingSingle = () => {
 
     form.setFieldsValue({
       ...values,
-      customer: selectedCustomer.id,
+      customer_id: selectedCustomer.id,
       desk_id: desk.id,
-      chairs: selectedSeat,
+      chairs_id: selectedSeat,
       no: String(seatValues),
       amount: selectedSeat.length,
       unitprice: 350,
@@ -196,6 +196,8 @@ export const NewBookingSingle = () => {
                   autoComplete="off"
                   colon={false}
                 >
+                  <div style={{ padding: 30 }}></div>
+                  {/* FIXME pho0m fixed padding*/}
                   <Mention selectedSeat={selectedSeat} />
                 </Form>
               </Col>
@@ -243,7 +245,7 @@ export const NewBookingSingle = () => {
                           .includes(input.toLowerCase())
                       }
                       options={customers.map((c: any) => ({
-                        label: c.email,
+                        label: `${c.first_name} ${c.last_name} - ${c.generation}`,
                         value: JSON.stringify(c),
                       }))}
                     />

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Col,
@@ -9,6 +9,7 @@ import {
   Input,
   Tag,
   Upload,
+  Modal,
 } from "antd";
 import {
   Link,
@@ -24,6 +25,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
 import FormItem from "antd/es/form/FormItem";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 export async function reservationPaymentLoader({ request, params }: any) {
   try {
@@ -85,6 +87,32 @@ export const ReservationPayment = () => {
     submit(payload, { method: "put" });
   };
 
+  //FIXME phoom did this please p'aon fixed this TvT
+  const handleCancelPayment = async () => {
+    Modal.confirm({
+      title: "Do you want to delete these items?",
+      icon: <ExclamationCircleFilled />,
+      content:
+        "When clicked the OK button, this dialog will be closed after delete this",
+      async onOk() {
+        try {
+          const res = await API.cancelBooking(booking.id);
+
+          if (res.status === 200) {
+            await new Promise((resolve) => {
+              setTimeout(resolve, 1000);
+              navigate("/booking");
+              return;
+            });
+          }
+        } catch {
+          return console.log("Oops errors!");
+        }
+      },
+      onCancel() {},
+    });
+  };
+
   React.useEffect(() => {
     if (action && action.message === "Can not Approve Payment!") {
       onResponse(action.status, action.message);
@@ -109,6 +137,7 @@ export const ReservationPayment = () => {
             colon={false}
             layout="vertical"
             onFinish={handleApprovePayment}
+            onReset={handleCancelPayment}
             initialValues={{
               ...customer,
               chairs_no: booking.desk.chairs
@@ -237,31 +266,34 @@ export const ReservationPayment = () => {
                   </Col>
                   {booking.payment_status === "unpaid" && (
                     <Col span={12}>
-                      <Space
-                        direction="vertical"
-                        size="small"
-                        style={{
-                          width: "100%",
-                        }}
-                      >
-                        <Form.Item>
-                          <Button
-                            htmlType="submit"
-                            block
-                            style={{ background: "#303E57", color: "#ffffff" }}
-                          >
-                            Approve Payment
-                          </Button>
-                        </Form.Item>
+                      <Form.Item>
+                        <Button
+                          htmlType="submit"
+                          block
+                          style={{
+                            background: "#303E57",
+                            color: "#ffffff",
+                            height: "70px",
+                          }}
+                        >
+                          Approve Payment
+                        </Button>
+                      </Form.Item>
+                      <Form.Item>
+                        <Button
+                          htmlType="reset"
+                          block
+                          style={{
+                            background: "#9A0000",
+                            color: "#ffffff",
+                            height: "70px",
+                          }}
+                        >
+                          Cancel Reservation
+                        </Button>
+                      </Form.Item>
 
-                        {/* <Button
-                        disabled
-                        block
-                        style={{ background: "#9A0000", color: "#ffffff" }}
-                      >
-                        Cancel Reservation
-                      </Button> */}
-                      </Space>
+                      {/* </Space> */}
                     </Col>
                   )}
                 </Row>

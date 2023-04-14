@@ -81,6 +81,12 @@ export const DeskIndex = () => {
 
   const columns = [
     {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      render: (text: any) => text,
+    },
+    {
       title: "Label",
       dataIndex: "label",
       key: "label",
@@ -104,7 +110,17 @@ export const DeskIndex = () => {
       dataIndex: "status",
       key: "status",
       render: (text: any) => (
-        <Tag color={text === "pending" ? "blue" : "success"}>{text}</Tag>
+        <Tag
+          color={
+            text === "pending"
+              ? "blue"
+              : text === "unavailable"
+              ? "grey"
+              : "success"
+          }
+        >
+          {text}
+        </Tag>
       ),
     },
 

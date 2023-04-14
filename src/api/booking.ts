@@ -29,3 +29,10 @@ export async function editBooking(id: any, data: any) {
     data,
   });
 }
+
+export async function cancelBooking(id: any) {
+  return client({
+    method: "DELETE",
+    url: `/bookings/delete/${id}`,
+  });
+}
