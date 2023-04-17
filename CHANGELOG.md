@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.2.0...1.2.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* **edit payment:** edit payment ([0513345](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/051334585f791183ba2af78164eac3d77c46d2af))
+
 ## [1.2.0](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.1.1...1.2.0) (2023-04-17)
 
 
