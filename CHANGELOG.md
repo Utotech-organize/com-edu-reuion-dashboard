@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.1.1...1.2.0) (2023-04-17)
+
+
+### Features
+
+* **adding product and setting flow:** adding product and setting flow ([5acebb8](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/5acebb8750274f9a29cac64e1c55e41dccfcab02))
+
 ### [1.1.1](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/v1.1.0...v1.1.1) (2023-04-17)
 
 
