@@ -83,7 +83,7 @@ export const PaymentIndex = () => {
       width: 100,
       align: "center",
       render: (_: any, record: any) => (
-        <Tag color="#f50">{record.desk.label}</Tag>
+        <Tag color="#f50">{record.desk?.label}</Tag>
       ),
     },
     {
@@ -111,7 +111,13 @@ export const PaymentIndex = () => {
       align: "center",
       width: 100,
       render: (text: any) => (
-        <Tag color={text === "pending" ? "blue" : "success"}>{text}</Tag>
+        <Tag
+          color={
+            text === "pending" ? "blue" : text === "cancel" ? "red" : "success"
+          }
+        >
+          {text}
+        </Tag>
       ),
     },
     {

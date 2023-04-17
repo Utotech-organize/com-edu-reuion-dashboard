@@ -53,7 +53,6 @@ export async function editDeskAction({ request, params }: any) {
       params.id,
       JSON.parse(submitData.data)
     );
-    console.log({ data });
 
     // return redirect(`/payment/${data.data.id}`);
     return { status: "success", message: "Update Successfully!" };

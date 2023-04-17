@@ -1,8 +1,19 @@
-import { Button, Divider, Form, Input, InputNumber, Modal, Switch } from "antd";
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Row,
+  Switch,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React from "react";
+import { UploadImage } from "./UploadImage";
 
 interface UpdateProductProps {
+  form: any;
   data: any;
   loading?: boolean;
   open: boolean;
@@ -13,10 +24,19 @@ interface UpdateProductProps {
 export const UpdateProduct: React.FC<UpdateProductProps> = (
   props: UpdateProductProps
 ) => {
-  const { data, loading, open, onCancel, handleFinishedModal } = props;
-  const [form] = Form.useForm();
+  const { form, data, loading, open, onCancel, handleFinishedModal } = props;
+  const [upload, setUpload] = React.useState(false);
+
   const onFinished = (values: any) => {
     handleFinishedModal(values);
+  };
+
+  const handleCancel = () => {
+    onCancel();
+  };
+
+  const handleLoader = (status: boolean) => {
+    setUpload(status);
   };
 
   return (
@@ -25,11 +45,11 @@ export const UpdateProduct: React.FC<UpdateProductProps> = (
       open={open}
       onCancel={onCancel}
       footer={[
-        <Button key="back" onClick={onCancel}>
+        <Button key="back" htmlType="reset" onClick={handleCancel}>
           Cancel
         </Button>,
         <Button
-          loading={loading}
+          loading={upload}
           key="submit"
           type="primary"
           onClick={() => form.submit()}
@@ -46,9 +66,17 @@ export const UpdateProduct: React.FC<UpdateProductProps> = (
         name="desk"
         autoComplete="off"
         colon={false}
-        initialValues={{ data }}
-        disabled={loading}
+        disabled={upload || loading}
+        labelAlign="left"
       >
+        <Row justify="center" style={{ width: "100%", height: 120 }}>
+          <UploadImage
+            data={data.image ? [{ uid: "-1", url: data.image }] : []}
+            type="picture-card"
+            loading={upload}
+            handleLoader={handleLoader}
+          />
+        </Row>
         <Form.Item
           label="Label"
           name="label"
@@ -64,7 +92,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = (
           labelCol={{ span: 6 }}
           rules={[{ required: true, message: "Please input Price!" }]}
         >
-          <InputNumber style={{ width: "100%" }} />
+          <InputNumber min={0} style={{ width: "100%" }} />
         </Form.Item>
 
         <Form.Item label="Ordering" name="ordering" labelCol={{ span: 6 }}>

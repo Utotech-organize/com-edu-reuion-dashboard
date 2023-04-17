@@ -82,7 +82,15 @@ export const NewBooking = () => {
               <div className="grid-container">
                 {desks.map((d: any, index: any) => (
                   <div key={d.id} className="grid-item">
-                    <Link to={`${d.id}`}>
+                    <Link
+                      to={d.status === "unavailable" ? `` : `${d.id}`}
+                      style={{
+                        cursor:
+                          d.status === "unavailable"
+                            ? "not-allowed"
+                            : "pointer",
+                      }}
+                    >
                       <div
                         className="seat"
                         style={{
