@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/v1.1.0...v1.1.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* **flow booking:** flow booking edit ([1952040](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/1952040c75be1291293408b0928b8fdd8571d78e))
+
 ## 1.1.0 (2023-04-14)
 
 
