@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.5](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.2.4...1.2.5) (2023-04-17)
+
+
+### Bug Fixes
+
+* **hotfix:** remove upload image in cancel status ([515d2cf](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/515d2cf66fb813019b74564a131ef817040e522b))
+
 ### [1.2.4](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.2.3...1.2.4) (2023-04-17)
 
 
