@@ -36,12 +36,14 @@ export const UserIndex = () => {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      width: 50,
       render: (text: any) => <>{text}</>,
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      width: 150,
       render: (text: any) => <>{text}</>,
     },
     {
@@ -61,12 +63,14 @@ export const UserIndex = () => {
       title: "Phone",
       dataIndex: "tel",
       key: "tel",
+      width: 100,
     },
 
     {
       title: "Action",
       key: "action",
       align: "center",
+      width: 50,
       render: (_: any, record: any) => (
         <Link to={`${record.id}`}>
           <Button>Edit</Button>

@@ -1,6 +1,7 @@
 import { Col, Form, Input, Row, Typography } from "antd";
 import React from "react";
 import { UploadImage } from "./UploadImage";
+import * as Icon from "@ant-design/icons";
 
 interface UserFormProps {
   data?: any;
@@ -17,15 +18,20 @@ export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
   const { data, loading, edit, title, form, footer, handleLoader, onFinished } =
     props;
 
+  const [changePassword, setChangePassword] = React.useState(false);
+
   return (
     <Form
       form={form}
       name="user"
-      onFinish={onFinished}
+      onFinish={(values: any) => {
+        onFinished(values);
+        setChangePassword(false);
+      }}
       autoComplete="off"
       colon={false}
       layout="horizontal"
-      labelCol={{ span: 3 }}
+      labelCol={{ xs: 24, sm: 8, md: 6, lg: 3 }}
       labelAlign="left"
       disabled={loading}
       initialValues={{
@@ -65,11 +71,11 @@ export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
         </Form.Item>
       )}
       <Row gutter={20}>
-        <Col xs={24} sm={24} md={12} lg={12}>
+        <Col xs={24} sm={24} md={24} lg={12}>
           <Form.Item
             label="First Name"
             name="first_name"
-            labelCol={{ span: 6 }}
+            labelCol={{ xs: 24, sm: 8, md: 6, lg: 6 }}
             rules={[
               { required: true, message: "Please input your First Name!" },
             ]}
@@ -77,11 +83,11 @@ export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
             <Input />
           </Form.Item>
         </Col>
-        <Col xs={24} sm={24} md={12} lg={12}>
+        <Col xs={24} sm={24} md={24} lg={12}>
           <Form.Item
             label="Last Name"
             name="last_name"
-            labelCol={{ span: 6 }}
+            labelCol={{ xs: 24, sm: 8, md: 6, lg: 6 }}
             rules={[
               { required: true, message: "Please input your Last Name!" },
             ]}
@@ -97,7 +103,25 @@ export const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
       >
         <Input />
       </Form.Item>
-
+      {edit && (
+        <>
+          <Typography.Link onClick={() => setChangePassword(!changePassword)}>
+            Change Password{" "}
+            {changePassword ? <Icon.UpOutlined /> : <Icon.DownOutlined />}
+          </Typography.Link>
+          {changePassword && (
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+          )}
+        </>
+      )}
       {footer}
     </Form>
   );

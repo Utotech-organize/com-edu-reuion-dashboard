@@ -38,14 +38,6 @@ export const Mention: React.FC<MentionProps> = (props: MentionProps) => {
     },
   ];
 
-  const copy = async () => {
-    await navigator.clipboard.writeText("123-456-7890");
-    notification.success({
-      message: "Copy Successfully!",
-      placement: "bottomLeft",
-    });
-  };
-
   return (
     <Row gutter={5}>
       <Col xs={24} sm={24} md={24} lg={9}>

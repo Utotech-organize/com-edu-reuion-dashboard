@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Button, Form, Modal, Row, Spin } from "antd";
 import {
   Link,
-  redirect,
   useActionData,
   useLoaderData,
   useNavigate,
@@ -58,7 +57,6 @@ export async function editUserAction({ request, params }: any) {
 export const UserEdit = () => {
   const { onResponse } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { state } = useNavigation();
   const { user } = useLoaderData() as any;
 
   const submit = useSubmit();
@@ -106,7 +104,7 @@ export const UserEdit = () => {
       title: "Warning !",
       content: (
         <div>
-          <p>Are you sure to Delete this User ?</p>
+          <p>Are you sure to Delete this User?</p>
         </div>
       ),
       okText: "Confirm",
@@ -139,44 +137,42 @@ export const UserEdit = () => {
           </Link>,
         ]}
       />
-      <Spin spinning={state === "loading" || state === "submitting"}>
-        <div
-          style={{
-            height: "100%",
-            padding: "0px 40px 20px 40px",
-          }}
-        >
-          <UserForm
-            data={user}
-            loading={loading}
-            edit={true}
-            title="User Details"
-            form={form}
-            onFinished={handleSubmit}
-            handleLoader={handleLoader}
-            footer={
-              <Row
-                justify="end"
-                style={{
-                  marginTop: "24px",
-                  columnGap: "20px",
-                }}
-              >
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Save
-                  </Button>
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" onClick={handleDelete}>
-                    Delete
-                  </Button>
-                </Form.Item>
-              </Row>
-            }
-          />
-        </div>
-      </Spin>
+      <div
+        style={{
+          height: "100%",
+          padding: "0px 40px 20px 40px",
+        }}
+      >
+        <UserForm
+          data={user}
+          loading={loading}
+          edit={true}
+          title="User Details"
+          form={form}
+          onFinished={handleSubmit}
+          handleLoader={handleLoader}
+          footer={
+            <Row
+              justify="end"
+              style={{
+                marginTop: "24px",
+                columnGap: "20px",
+              }}
+            >
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Save
+                </Button>
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" onClick={handleDelete}>
+                  Delete
+                </Button>
+              </Form.Item>
+            </Row>
+          }
+        />
+      </div>
     </IndexPageLayout>
   );
 };

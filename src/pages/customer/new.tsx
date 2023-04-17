@@ -33,7 +33,7 @@ export const CustomerNew = () => {
       title: "Warning !",
       content: (
         <div>
-          <p>Are you sure to Create this User ?</p>
+          <p>Are you sure to Create this Customer?</p>
         </div>
       ),
       okText: "Confirm",

@@ -1,5 +1,7 @@
 import { Space, Typography } from "antd";
 import React from "react";
+import { Link } from "react-router-dom";
+import * as Icon from "@ant-design/icons";
 
 interface HeaderBarProps {
   title: string;
@@ -18,9 +20,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = (props: HeaderBarProps) => {
         padding: "10px",
       }}
     >
-      <Typography.Title level={3} style={{ marginTop: "10px" }}>
-        {title}
-      </Typography.Title>
+      <Space>
+        <Typography.Title level={3} style={{ marginTop: "10px" }}>
+          {title}
+        </Typography.Title>
+      </Space>
 
       <Space>{...btnData}</Space>
     </div>

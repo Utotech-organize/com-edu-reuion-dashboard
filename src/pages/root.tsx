@@ -1,5 +1,5 @@
-import { Outlet, redirect } from "react-router-dom";
-import { notification } from "antd";
+import { Outlet, redirect, useNavigation } from "react-router-dom";
+import { Spin, notification } from "antd";
 
 import { AppLayout } from "../layout";
 import { AuthContext } from "../context/AuthContext";
@@ -18,6 +18,8 @@ export async function RootLoader() {
 }
 
 export const Root = () => {
+  const { state } = useNavigation();
+
   const onResponse = (status: NotificationType, message: string) => {
     notification[status]({
       message: message,
@@ -29,7 +31,9 @@ export const Root = () => {
   return (
     <AuthContext.Provider value={{ onResponse }}>
       <AppLayout>
-        <Outlet />
+        <Spin spinning={state === "loading" || state === "submitting"}>
+          <Outlet />
+        </Spin>
       </AppLayout>
     </AuthContext.Provider>
   );

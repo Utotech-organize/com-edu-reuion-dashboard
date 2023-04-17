@@ -12,21 +12,15 @@ import {
   UploadProps,
   Image,
   Tag,
+  notification,
+  Modal,
 } from "antd";
-import { Link, useLoaderData } from "react-router-dom";
-import { RcFile } from "rc-upload/lib/interface";
-
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 import { HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import * as API from "../../api";
-import useCopyToClipboard from "../../components/CopyToClipboard";
-import { CopyOutlined } from "@ant-design/icons";
-
-const getBase64 = (img: RcFile, callback: (url: string) => void) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result as string));
-  reader.readAsDataURL(img);
-};
+import { CopyOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 
 export async function paymentSuccessLoader({ request, params }: any) {
   try {
@@ -45,12 +39,37 @@ export async function paymentSuccessLoader({ request, params }: any) {
 }
 
 export const PaymentSuccess = () => {
-  const [value, copy] = useCopyToClipboard();
   const { customer, booking, desk } = useLoaderData() as any;
+  const navigate = useNavigate();
+  const handleCancelPayment = async () => {
+    Modal.confirm({
+      title: "Do you want to delete this Payment?",
+      icon: <ExclamationCircleFilled />,
+      async onOk() {
+        try {
+          const res = await API.cancelBooking(booking.id);
 
-  const swalCopy = () => {
-    copy(booking.slug);
-    console.log(booking.slug);
+          if (res.status === 200) {
+            navigate("/payment");
+          }
+        } catch {
+          notification["error"]({
+            message: "Oops errors!",
+            placement: "bottomLeft",
+            duration: 5,
+          });
+        }
+      },
+      onCancel() {},
+    });
+  };
+
+  const copy = async () => {
+    await navigator.clipboard.writeText(booking.slug);
+    notification.success({
+      message: "Copy Successfully!",
+      placement: "bottomLeft",
+    });
   };
 
   return (
@@ -95,29 +114,30 @@ export const PaymentSuccess = () => {
                   </Tag>
                 </Space>
               </Space>
-
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <div style={{ flexDirection: "column" }}>
+              <Row gutter={20}>
+                <Col span={24}>
                   <h2>
-                    Booking ID
-                    <Button onClick={() => swalCopy()}>
-                      <CopyOutlined />
-                    </Button>
+                    <Space size="middle">
+                      Booking ID {booking.slug}
+                      <Button onClick={() => copy()}>
+                        <CopyOutlined />
+                      </Button>
+                    </Space>
                   </h2>
                   <div
                     style={{
                       width: "100%",
+                      display: "flex",
                       background: "white",
                       justifyContent: "center",
                       alignItems: "center",
                     }}
                   >
-                    <Image src={booking.qrcode_image} />
+                    <Image src={booking.qrcode_image} height={150} />
                   </div>
-                </div>
-                <div style={{ padding: "20px" }}></div>
-                <div style={{ flexDirection: "column" }}>
-                  <h2>Receipt</h2>
+                </Col>
+                <Col span={24}>
+                  <h3>Receipt</h3>
                   <div
                     style={{
                       width: "100%",
@@ -128,21 +148,8 @@ export const PaymentSuccess = () => {
                   >
                     <Image src={booking.image_url} />
                   </div>
-                </div>
-              </div>
-
-              {/* <div
-                style={{
-                  width: "100%",
-                  height: "300px",
-                  background: "white",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Image src={booking.qrcode_image} />
-              </div> */}
+                </Col>
+              </Row>
             </Col>
 
             <Col xs={24} sm={24} md={24} lg={12}>
@@ -150,23 +157,21 @@ export const PaymentSuccess = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  // paddingLeft: "2rem",
-                  // paddingRight: "2rem",
                 }}
               >
                 <Form
-                  // form={form}
                   name="user"
-                  // onFinish={onFinished}
                   autoComplete="off"
                   colon={false}
                   layout="vertical"
+                  onReset={handleCancelPayment}
                   initialValues={{
                     ...customer,
                     total: booking.total,
                     slug: booking.slug,
                     chairs_label: booking.chairs_label,
                     amount: booking.desk.chairs.length,
+                    inspector: booking.inspector,
                   }}
                 >
                   <Typography.Title
@@ -212,6 +217,26 @@ export const PaymentSuccess = () => {
                       </Form.Item>
                     </Col>
                   </Row>
+                  <Form.Item label="Inspector." name="inspector">
+                    <Input disabled />
+                  </Form.Item>
+                  <Typography.Text>
+                    Updated At :{" "}
+                    {dayjs(booking.updated_at).format("DD/MM/YYYY HH:mm")}
+                  </Typography.Text>
+                  <Form.Item>
+                    <Button
+                      htmlType="reset"
+                      block
+                      style={{
+                        background: "#9A0000",
+                        color: "#ffffff",
+                        height: "70px",
+                      }}
+                    >
+                      Cancel Payment
+                    </Button>
+                  </Form.Item>
                 </Form>
               </div>
             </Col>

@@ -134,6 +134,7 @@ body {
   background: #edeef0;
   overflow: auto;
   min-height: 80vh;
+  max-height: 80vh;
 }
 
 .circle.big {

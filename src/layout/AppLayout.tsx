@@ -124,6 +124,16 @@ export const AppLayout: React.FC<AppLayoutProps> = (props: AppLayoutProps) => {
               icon: <Icon.UsergroupAddOutlined />,
               label: <Link to="/customer">Customer Management</Link>,
             },
+            {
+              key: "product",
+              icon: <Icon.ShoppingCartOutlined />,
+              label: <Link to="/product">Product Management</Link>,
+            },
+            {
+              key: "setting",
+              icon: <Icon.SettingOutlined />,
+              label: <Link to="/setting">Setting</Link>,
+            },
           ]}
         />
       </Sider>

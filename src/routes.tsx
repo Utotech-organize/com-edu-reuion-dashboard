@@ -1,6 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { Login, DashboardIndex, Root } from "./pages";
+import {
+  Login,
+  DashboardIndex,
+  Root,
+  ProductPage,
+  productLoader,
+  productACtion,
+} from "./pages";
 import { RootLoader } from "./pages/root";
 import { loader as LoginAction } from "./pages/login";
 
@@ -43,8 +50,14 @@ import { PaymentIndex, PaymentEdit, PaymentSuccess } from "./pages/payment";
 
 import { paymentIndexLoader, paymentSuccessLoader } from "./pages/payment";
 
-import { deskIndexAction, deskIndexLoader, editDeskLoader } from "./pages/desk";
+import {
+  deskIndexAction,
+  deskIndexLoader,
+  editDeskLoader,
+  editDeskAction,
+} from "./pages/desk";
 import { DeskIndex, EditDesk } from "./pages/desk";
+import { SettingPage, settingAction, settingLoader } from "./pages/setting";
 
 export const router = createBrowserRouter([
   {
@@ -71,6 +84,7 @@ export const router = createBrowserRouter([
       {
         path: "/desk/:id",
         loader: editDeskLoader,
+        action: editDeskAction,
         element: <EditDesk />,
       },
       {
@@ -138,6 +152,20 @@ export const router = createBrowserRouter([
         path: "/payment/:id",
         loader: paymentSuccessLoader,
         element: <PaymentSuccess />,
+      },
+
+      {
+        path: "/product",
+        loader: productLoader,
+        action: productACtion,
+        element: <ProductPage />,
+      },
+
+      {
+        path: "/setting",
+        loader: settingLoader,
+        action: settingAction,
+        element: <SettingPage />,
       },
     ],
   },
