@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.2.1...1.2.2) (2023-04-17)
+
+
+### Bug Fixes
+
+* **booking edit:** booking edit ([f50faf4](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/f50faf42235fe07c1e336645397f573edaba6f6f))
+
 ### [1.2.1](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.2.0...1.2.1) (2023-04-17)
 
 
