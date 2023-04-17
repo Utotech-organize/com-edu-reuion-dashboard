@@ -110,7 +110,13 @@ export const BookingIndex = () => {
       width: 100,
 
       render: (text: any) => (
-        <Tag color={text === "pending" ? "blue" : "success"}>{text}</Tag>
+        <Tag
+          color={
+            text === "pending" ? "blue" : text === "cancel" ? "red" : "success"
+          }
+        >
+          {text}
+        </Tag>
       ),
     },
 

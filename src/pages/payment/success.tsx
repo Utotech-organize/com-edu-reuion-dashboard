@@ -108,7 +108,13 @@ export const PaymentSuccess = () => {
                     {booking?.payment_status}
                   </Tag>
                   <Tag
-                    color={booking?.status === "pending" ? "blue" : "success"}
+                    color={
+                      booking?.status === "pending"
+                        ? "blue"
+                        : booking?.status === "cancel"
+                        ? "red"
+                        : "success"
+                    }
                   >
                     {booking?.status}
                   </Tag>

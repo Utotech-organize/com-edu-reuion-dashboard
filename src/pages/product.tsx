@@ -100,6 +100,7 @@ export const ProductPage = () => {
 
     if (selectedProduct.id) {
       payload.id = selectedProduct.id;
+      payload.active = value?.active ? true : false;
     }
     setModal(false);
 
