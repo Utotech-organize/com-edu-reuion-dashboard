@@ -224,19 +224,21 @@ export const PaymentSuccess = () => {
                     Updated At :{" "}
                     {dayjs(booking.updated_at).format("DD/MM/YYYY HH:mm")}
                   </Typography.Text>
-                  <Form.Item>
-                    <Button
-                      htmlType="reset"
-                      block
-                      style={{
-                        background: "#9A0000",
-                        color: "#ffffff",
-                        height: "70px",
-                      }}
-                    >
-                      Cancel Payment
-                    </Button>
-                  </Form.Item>
+                  {booking.status != "cancel" && (
+                    <Form.Item>
+                      <Button
+                        htmlType="reset"
+                        block
+                        style={{
+                          background: "#9A0000",
+                          color: "#ffffff",
+                          height: "70px",
+                        }}
+                      >
+                        Cancel Payment
+                      </Button>
+                    </Form.Item>
+                  )}
                 </Form>
               </div>
             </Col>

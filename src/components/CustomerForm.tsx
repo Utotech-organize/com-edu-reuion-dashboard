@@ -49,7 +49,16 @@ export const CustomerForm: React.FC<CustomerFormProps> = (
       </Typography.Title>
 
       <Row justify="center">
-        {data && data.line_photo_url && <Avatar src={data.line_photo_url} />}
+        {data && data.line_photo_url && (
+          <Avatar
+            src={data.line_photo_url}
+            style={{
+              minHeight: "100px",
+              minWidth: "100px",
+              marginBottom: "12px",
+            }}
+          />
+        )}
       </Row>
 
       <Form.Item

@@ -281,19 +281,21 @@ export const ReservationPayment = () => {
                           Approve Payment
                         </Button>
                       </Form.Item>
-                      <Form.Item>
-                        <Button
-                          htmlType="reset"
-                          block
-                          style={{
-                            background: "#9A0000",
-                            color: "#ffffff",
-                            height: "70px",
-                          }}
-                        >
-                          Cancel Booking
-                        </Button>
-                      </Form.Item>
+                      {booking.status !== "cancel" && (
+                        <Form.Item>
+                          <Button
+                            htmlType="reset"
+                            block
+                            style={{
+                              background: "#9A0000",
+                              color: "#ffffff",
+                              height: "70px",
+                            }}
+                          >
+                            Cancel Booking
+                          </Button>
+                        </Form.Item>
+                      )}
                     </Col>
                   )}
                 </Row>

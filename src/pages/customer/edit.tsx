@@ -146,11 +146,11 @@ export const CustomerEdit = () => {
                   Save
                 </Button>
               </Form.Item>
-              <Form.Item>
+              {/* <Form.Item>
                 <Button type="primary" onClick={handleDelete}>
                   Delete
                 </Button>
-              </Form.Item>
+              </Form.Item> */}
             </Row>
           }
         />
