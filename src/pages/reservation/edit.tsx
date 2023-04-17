@@ -272,39 +272,38 @@ export const ReservationPayment = () => {
                       />
                     </Col>
                   </Col>
-                  {(booking.payment_status === "unpaid" ||
-                    booking.status !== "cancel") && (
-                    <Col span={12}>
-                      <Form.Item>
-                        <Button
-                          htmlType="submit"
-                          block
-                          style={{
-                            background: "#303E57",
-                            color: "#ffffff",
-                            height: "70px",
-                          }}
-                        >
-                          Approve Payment
-                        </Button>
-                      </Form.Item>
-                      (
-                      <Form.Item>
-                        <Button
-                          htmlType="reset"
-                          block
-                          style={{
-                            background: "#9A0000",
-                            color: "#ffffff",
-                            height: "70px",
-                          }}
-                        >
-                          Cancel Booking
-                        </Button>
-                      </Form.Item>
-                      )
-                    </Col>
-                  )}
+                  {booking.payment_status === "unpaid" &&
+                    booking.status !== "cancel" && (
+                      <Col span={12}>
+                        <Form.Item>
+                          <Button
+                            htmlType="submit"
+                            block
+                            style={{
+                              background: "#303E57",
+                              color: "#ffffff",
+                              height: "70px",
+                            }}
+                          >
+                            Approve Payment
+                          </Button>
+                        </Form.Item>
+
+                        <Form.Item>
+                          <Button
+                            htmlType="reset"
+                            block
+                            style={{
+                              background: "#9A0000",
+                              color: "#ffffff",
+                              height: "70px",
+                            }}
+                          >
+                            Cancel Booking
+                          </Button>
+                        </Form.Item>
+                      </Col>
+                    )}
                 </Row>
               </Col>
             </Row>
