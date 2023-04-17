@@ -33,7 +33,12 @@ export const UploadImage: React.FC<UploadImageProps> = (
       setFileList([]);
     },
     onPreview: (file) => {
-      window.open(fileList.data, "_blank");
+      window.open(
+        fileList && fileList.length && fileList[0].url
+          ? fileList[0].url
+          : fileList[0].response.data,
+        "_blank"
+      );
     },
 
     onChange(info: any) {
@@ -54,7 +59,7 @@ export const UploadImage: React.FC<UploadImageProps> = (
         "0%": "#108ee9",
         "100%": "#87d068",
       },
-      strokeWidth: 3,
+      size: 3,
       format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
     },
   };

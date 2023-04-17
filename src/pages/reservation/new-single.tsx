@@ -1,15 +1,5 @@
 import React, { useContext } from "react";
-import {
-  Button,
-  Col,
-  Row,
-  Typography,
-  Form,
-  notification,
-  Select,
-  Input,
-  Spin,
-} from "antd";
+import { Button, Col, Row, Typography, Form, Select } from "antd";
 import {
   Link,
   useActionData,
@@ -27,8 +17,8 @@ import {
 } from "../../components";
 import { IndexPageLayout } from "../../layout";
 import { AuthContext } from "../../context/AuthContext";
-import * as API from "../../api";
 import { BookingForm } from "../../components/BookingForm";
+import * as API from "../../api";
 
 export async function NewBookingSingleLoader({ request, params }: any) {
   try {
@@ -69,11 +59,11 @@ export const NewBookingSingle = () => {
   const submit = useSubmit();
   const navigate = useNavigate();
   const action = useActionData() as any;
+  const { state } = useNavigation();
 
   const [modal, setModal] = React.useState(false);
 
   const { onResponse } = useContext(AuthContext);
-  const { state } = useNavigation();
 
   const [selectedSeat, setSelectedSeat] = React.useState<any>([]);
   const [selectedCustomer, setSelectedCustomer] = React.useState<any>({});
@@ -101,9 +91,12 @@ export const NewBookingSingle = () => {
       chairs_id: selectedSeat,
       no: String(seatValues),
       amount: selectedSeat.length,
-      unitprice: 350,
+      unitprice: desk.chair_price,
+
       total:
-        selectedSeat.length === 10 ? desk.price : selectedSeat.length * 350,
+        selectedSeat.length === 10
+          ? desk.price
+          : selectedSeat.length * desk.chair_price,
     });
 
     setModal(true);
@@ -111,7 +104,11 @@ export const NewBookingSingle = () => {
 
   const handleBooking = (mode: string) => {
     if (mode === "all") {
-      setSelectedSeat(desk.chairs.map((item: any) => item.id));
+      setSelectedSeat(
+        desk.chairs
+          .filter((item: any) => item.status === "available")
+          .map((c: any) => c.id)
+      );
     }
   };
 
@@ -156,7 +153,9 @@ export const NewBookingSingle = () => {
         amount: selectedSeat.length,
         unitprice: desk.chair_price,
         total:
-          selectedSeat.length === 10 ? desk.price : selectedSeat.length * 350,
+          selectedSeat.length === 10
+            ? desk.price
+            : selectedSeat.length * desk.chair_price,
       });
     }
   }, [action, selectedSeat]);
@@ -173,94 +172,93 @@ export const NewBookingSingle = () => {
       />
       <div className="reserv-container">
         <div className="reserv-box">
-          <Spin spinning={state === "loading" || state === "submitting"}>
-            <Row gutter={20} style={{ minWidth: "95%", minHeight: 664 }}>
-              <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={14}
+          <Row gutter={20} style={{ minWidth: "95%", minHeight: 664 }}>
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={14}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <TableSelect
+                desk={desk}
+                selectedSeat={selectedSeat}
+                handleSelectedSeat={handleSelectedSeat}
+              />
+              <Form
+                form={summary}
+                name="summary"
+                autoComplete="off"
+                colon={false}
+              >
+                <div style={{ padding: 30 }}></div>
+                {/* FIXME pho0m fixed padding*/}
+                <Mention selectedSeat={selectedSeat} />
+              </Form>
+            </Col>
+            <Col xs={24} sm={24} md={24} lg={10}>
+              <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                 }}
               >
-                <TableSelect
-                  desk={desk}
-                  selectedSeat={selectedSeat}
-                  handleSelectedSeat={handleSelectedSeat}
-                />
                 <Form
-                  form={summary}
-                  name="summary"
+                  form={form}
+                  onFinish={onFinished}
+                  onFinishFailed={() => {
+                    setSelectedSeat([]);
+                  }}
+                  name="booking"
                   autoComplete="off"
                   colon={false}
+                  layout="vertical"
+                  disabled={state === "loading" || state === "submitting"}
                 >
-                  <div style={{ padding: 30 }}></div>
-                  {/* FIXME pho0m fixed padding*/}
-                  <Mention selectedSeat={selectedSeat} />
-                </Form>
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={10}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Form
-                    form={form}
-                    onFinish={onFinished}
-                    onFinishFailed={() => {
-                      setSelectedSeat([]);
+                  <ModalBookingDetails
+                    open={modal}
+                    onCancel={() => setModal(false)}
+                    handleFinishedModal={handleFinishedModal}
+                  />
+                  <Typography.Title
+                    level={4}
+                    style={{
+                      marginTop: "10px",
+                      marginBottom: "20px",
                     }}
-                    name="booking"
-                    autoComplete="off"
-                    colon={false}
-                    layout="vertical"
                   >
-                    <ModalBookingDetails
-                      open={modal}
-                      onCancel={() => setModal(false)}
-                      handleFinishedModal={handleFinishedModal}
+                    Reserve Detail
+                  </Typography.Title>
+                  <Select
+                    showSearch
+                    style={{ width: "100%", marginBottom: "20px" }}
+                    placeholder="Select Customer"
+                    optionFilterProp="children"
+                    onSelect={onSelect}
+                    filterOption={(input: string, option: any) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={customers.map((c: any) => ({
+                      label: `${c.first_name} ${c.last_name} - ${c.generation} - ${c.channel}`,
+                      value: JSON.stringify(c),
+                    }))}
+                  />
+                  {selectedCustomer && selectedCustomer.id && (
+                    <BookingForm
+                      desk={desk}
+                      selectedSeat={selectedSeat}
+                      handleBooking={handleBooking}
                     />
-                    <Typography.Title
-                      level={4}
-                      style={{
-                        marginTop: "10px",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      Reserve Detail
-                    </Typography.Title>
-                    <Select
-                      showSearch
-                      style={{ width: "100%", marginBottom: "20px" }}
-                      placeholder="Select Customer"
-                      optionFilterProp="children"
-                      onSelect={onSelect}
-                      filterOption={(input: string, option: any) =>
-                        (option?.label ?? "")
-                          .toLowerCase()
-                          .includes(input.toLowerCase())
-                      }
-                      options={customers.map((c: any) => ({
-                        label: `${c.first_name} ${c.last_name} - ${c.generation}`,
-                        value: JSON.stringify(c),
-                      }))}
-                    />
-                    {selectedCustomer && selectedCustomer.id && (
-                      <BookingForm
-                        desk={desk}
-                        selectedSeat={selectedSeat}
-                        handleBooking={handleBooking}
-                      />
-                    )}
-                  </Form>
-                </div>
-              </Col>
-            </Row>
-          </Spin>
+                  )}
+                </Form>
+              </div>
+            </Col>
+          </Row>
         </div>
       </div>
     </IndexPageLayout>

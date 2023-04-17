@@ -10,6 +10,7 @@ import {
   Tag,
   Upload,
   Modal,
+  notification,
 } from "antd";
 import {
   Link,
@@ -17,6 +18,7 @@ import {
   useActionData,
   useLoaderData,
   useNavigate,
+  useNavigation,
   useSubmit,
 } from "react-router-dom";
 
@@ -66,6 +68,7 @@ export const ReservationPayment = () => {
   const submit = useSubmit();
 
   const [loading, setLoading] = React.useState<boolean>(false);
+  const { state } = useNavigation();
 
   const handleLading = (status: boolean) => {
     setLoading(status);
@@ -90,23 +93,21 @@ export const ReservationPayment = () => {
   //FIXME phoom did this please p'aon fixed this TvT
   const handleCancelPayment = async () => {
     Modal.confirm({
-      title: "Do you want to delete these items?",
+      title: "Do you want to delete this Booking?",
       icon: <ExclamationCircleFilled />,
-      content:
-        "When clicked the OK button, this dialog will be closed after delete this",
       async onOk() {
         try {
           const res = await API.cancelBooking(booking.id);
 
           if (res.status === 200) {
-            await new Promise((resolve) => {
-              setTimeout(resolve, 1000);
-              navigate("/booking");
-              return;
-            });
+            navigate("/booking");
           }
         } catch {
-          return console.log("Oops errors!");
+          notification["error"]({
+            message: "Oops errors!",
+            placement: "bottomLeft",
+            duration: 5,
+          });
         }
       },
       onCancel() {},
@@ -138,6 +139,7 @@ export const ReservationPayment = () => {
             layout="vertical"
             onFinish={handleApprovePayment}
             onReset={handleCancelPayment}
+            disabled={loading || state === "loading" || state === "submitting"}
             initialValues={{
               ...customer,
               chairs_no: booking.desk.chairs
@@ -289,11 +291,9 @@ export const ReservationPayment = () => {
                             height: "70px",
                           }}
                         >
-                          Cancel Reservation
+                          Cancel Booking
                         </Button>
                       </Form.Item>
-
-                      {/* </Space> */}
                     </Col>
                   )}
                 </Row>

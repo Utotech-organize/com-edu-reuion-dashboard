@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { Tag, Typography } from "antd";
 import React from "react";
 
 interface TableSelectProps {
@@ -41,7 +41,7 @@ export const TableSelect: React.FC<TableSelectProps> = (
           width: "100%",
         }}
       >
-        Seat
+        Seat <Tag>{desk.status}</Tag>
       </Typography.Title>
       <div id="big-circle" className="circle big">
         {desk && desk.label ? desk.label : "-"}

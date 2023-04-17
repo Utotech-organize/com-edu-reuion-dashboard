@@ -29,3 +29,10 @@ export async function createCustomer(data: any) {
     data,
   });
 }
+
+export async function deleteCustomer(id: any) {
+  return client({
+    method: "DELETE",
+    url: `/customers/delete/${id}`,
+  });
+}

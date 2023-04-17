@@ -1,17 +1,19 @@
 import { Button, Divider, Form, Input, InputNumber, Modal, Switch } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import React from "react";
 
-interface CreateDeskModalProps {
+interface UpdateProductProps {
+  data: any;
   loading?: boolean;
   open: boolean;
   onCancel: () => void;
   handleFinishedModal: (values: any) => void;
 }
 
-export const CreateDeskModal: React.FC<CreateDeskModalProps> = (
-  props: CreateDeskModalProps
+export const UpdateProduct: React.FC<UpdateProductProps> = (
+  props: UpdateProductProps
 ) => {
-  const { loading, open, onCancel, handleFinishedModal } = props;
+  const { data, loading, open, onCancel, handleFinishedModal } = props;
   const [form] = Form.useForm();
   const onFinished = (values: any) => {
     handleFinishedModal(values);
@@ -19,7 +21,7 @@ export const CreateDeskModal: React.FC<CreateDeskModalProps> = (
 
   return (
     <Modal
-      title="Desk Details"
+      title={data.id ? "Update Product" : "Create Product"}
       open={open}
       onCancel={onCancel}
       footer={[
@@ -44,7 +46,7 @@ export const CreateDeskModal: React.FC<CreateDeskModalProps> = (
         name="desk"
         autoComplete="off"
         colon={false}
-        initialValues={{ active: true, chair_price: 350 }}
+        initialValues={{ data }}
         disabled={loading}
       >
         <Form.Item
@@ -65,15 +67,12 @@ export const CreateDeskModal: React.FC<CreateDeskModalProps> = (
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item
-          label="Price / Chair"
-          name="chair_price"
-          labelCol={{ span: 6 }}
-          rules={[{ required: true, message: "Please input Price / Chair!" }]}
-        >
-          <InputNumber style={{ width: "100%" }} disabled />
+        <Form.Item label="Ordering" name="ordering" labelCol={{ span: 6 }}>
+          <InputNumber min={1} style={{ width: "100%" }} />
         </Form.Item>
-
+        <Form.Item label="Remark" name="remark" labelCol={{ span: 6 }}>
+          <TextArea rows={2} />
+        </Form.Item>
         <Form.Item
           labelCol={{ span: 6 }}
           label="Active"

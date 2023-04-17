@@ -44,7 +44,7 @@ export const BookingIndex = () => {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      width: 50,
+      width: 100,
       render: (text: any) => <>{text}</>,
     },
     {
@@ -58,6 +58,7 @@ export const BookingIndex = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      width: 200,
       render: (_: any, record: any) => (
         <>
           {record.customer.first_name} {record.customer.last_name}
@@ -68,6 +69,7 @@ export const BookingIndex = () => {
       title: "Phone",
       dataIndex: "tel",
       key: "tel",
+      width: 100,
       render: (_: any, record: any) => (
         <>{record.customer.tel ? record.customer.tel : "-"}</>
       ),
@@ -105,6 +107,8 @@ export const BookingIndex = () => {
       dataIndex: "status",
       key: "status",
       align: "center",
+      width: 100,
+
       render: (text: any) => (
         <Tag color={text === "pending" ? "blue" : "success"}>{text}</Tag>
       ),
@@ -114,6 +118,8 @@ export const BookingIndex = () => {
       title: "Action",
       key: "action",
       align: "center",
+      width: 100,
+
       render: (_: any, record: any) => (
         <Link to={`${record.id}`}>
           <Button>Edit</Button>

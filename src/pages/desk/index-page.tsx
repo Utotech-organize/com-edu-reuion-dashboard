@@ -1,6 +1,12 @@
 import React from "react";
-import { Button, Input, Table, Tag, Typography } from "antd";
-import { Link, redirect, useLoaderData, useSubmit } from "react-router-dom";
+import { Button, Input, Space, Table, Tag, Typography } from "antd";
+import {
+  Link,
+  redirect,
+  useLoaderData,
+  useNavigation,
+  useSubmit,
+} from "react-router-dom";
 
 import { CreateDeskModal, HeaderBar } from "../../components";
 import { IndexPageLayout } from "../../layout";
@@ -36,7 +42,7 @@ export const DeskIndex = () => {
   const [searchTerms, setSearchTerms] = React.useState(desks);
   const [modal, setModal] = React.useState<boolean>(false);
   const submit = useSubmit();
-
+  const { state } = useNavigation();
   const handleSearch = (e: any) => {
     setSearchTerms(
       desks.filter((data: any) =>
@@ -109,18 +115,23 @@ export const DeskIndex = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (text: any) => (
-        <Tag
-          color={
-            text === "pending"
-              ? "blue"
-              : text === "unavailable"
-              ? "grey"
-              : "success"
-          }
-        >
-          {text}
-        </Tag>
+      render: (text: any, record: any) => (
+        <Space>
+          <Tag
+            color={
+              text === "pending"
+                ? "blue"
+                : text === "unavailable"
+                ? "grey"
+                : "success"
+            }
+          >
+            {text}
+          </Tag>
+          <Tag color={record.active ? "blue" : "grey"}>
+            {record.active ? "Unlock" : "Lock"}
+          </Tag>
+        </Space>
       ),
     },
 
@@ -143,6 +154,7 @@ export const DeskIndex = () => {
         btnData={[<Button onClick={() => setModal(true)}>Add Desk</Button>]}
       />
       <CreateDeskModal
+        loading={state === "loading" || state === "submitting"}
         open={modal}
         onCancel={() => setModal(false)}
         handleFinishedModal={handleFinishedModal}

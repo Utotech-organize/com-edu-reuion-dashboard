@@ -12,11 +12,6 @@ export const BookingForm: React.FC<BookingFormProps> = (
   props: BookingFormProps
 ) => {
   const { desk, selectedSeat, handleBooking } = props;
-  const [loading, setLoading] = React.useState<boolean>(false);
-
-  const handleLoader = (status: boolean) => {
-    setLoading(status);
-  };
 
   return (
     <React.Fragment>
@@ -70,7 +65,7 @@ export const BookingForm: React.FC<BookingFormProps> = (
             <Button
               htmlType="submit"
               onClick={() => handleBooking?.("some")}
-              disabled={selectedSeat?.length === 0 || loading}
+              disabled={selectedSeat?.length === 0}
               block
               style={{
                 background: "#303E57",
@@ -83,11 +78,7 @@ export const BookingForm: React.FC<BookingFormProps> = (
             <Button
               htmlType="submit"
               onClick={() => handleBooking?.("all")}
-              disabled={
-                (desk && desk.status === "pending") ||
-                (desk && desk.status === "unavailable") ||
-                loading
-              }
+              disabled={desk && desk.status === "unavailable"}
               block
               style={{
                 background: "#FFA800",

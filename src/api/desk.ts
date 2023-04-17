@@ -21,3 +21,18 @@ export async function createDesk(data: any) {
     data,
   });
 }
+
+export async function updateDesk(id: any, data: any) {
+  return client({
+    method: "PUT",
+    url: `/desks/edit/${id}`,
+    data,
+  });
+}
+
+export async function deleteDesk(id: any) {
+  return client({
+    method: "DELETE",
+    url: `/desks/delete/${id}`,
+  });
+}

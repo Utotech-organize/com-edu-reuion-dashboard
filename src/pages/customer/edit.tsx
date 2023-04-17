@@ -5,6 +5,7 @@ import {
   redirect,
   useActionData,
   useLoaderData,
+  useNavigate,
   useSubmit,
 } from "react-router-dom";
 import { CustomerForm, HeaderBar, UserForm } from "../../components";
@@ -26,15 +27,29 @@ export async function customerEditAction({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
 
-  try {
-    const res = await API.editCustomer(submitData, params.id);
+  switch (request.method) {
+    case "PUT":
+      try {
+        const res = await API.editCustomer(submitData, params.id);
 
-    return {
-      message: "Update Successfully!",
-      status: "success",
-    };
-  } catch (e: any) {
-    return { error: e.response.data.message };
+        return {
+          message: "Update Successfully!",
+          status: "success",
+        };
+      } catch (e: any) {
+        return { error: e.response.data.message };
+      }
+    case "DELETE":
+      try {
+        const { data } = await API.deleteCustomer(params.id);
+
+        return {
+          message: "Delete Successfully!",
+          status: "success",
+        };
+      } catch (e: any) {
+        return { message: "Cannot delete this Customer!", status: "error" };
+      }
   }
 }
 
@@ -45,6 +60,7 @@ export const CustomerEdit = () => {
 
   const { customer } = useLoaderData() as any;
   const action = useActionData() as any;
+  const navigate = useNavigate();
 
   const [form] = Form.useForm();
 
@@ -53,7 +69,7 @@ export const CustomerEdit = () => {
       title: "Warning !",
       content: (
         <div>
-          <p>Are you sure to Edit this User ?</p>
+          <p>Are you sure to Edit this Customer ?</p>
         </div>
       ),
       okText: "Confirm",
@@ -71,13 +87,13 @@ export const CustomerEdit = () => {
       title: "Warning !",
       content: (
         <div>
-          <p>Are you sure to Delete this User ?</p>
+          <p>Are you sure to Delete this Customer?</p>
         </div>
       ),
       okText: "Confirm",
 
       onOk() {
-        //API.delete user
+        submit({ id: customer.id }, { method: "delete" });
       },
       cancelText: "Cancel",
       onCancel() {},
@@ -87,15 +103,19 @@ export const CustomerEdit = () => {
   React.useEffect(() => {
     if (action && action.status) {
       onResponse(action.status, action.message);
+
+      if (action.message === "Delete Successfully!") {
+        navigate("/customer");
+      }
     }
   }, [action]);
 
   return (
     <IndexPageLayout>
       <HeaderBar
-        title="User Management"
+        title="Customer Management"
         btnData={[
-          <Link key="user-back" to="/customer">
+          <Link key="customer-back" to="/customer">
             <Button>Back</Button>
           </Link>,
         ]}
@@ -124,6 +144,11 @@ export const CustomerEdit = () => {
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Save
+                </Button>
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" onClick={handleDelete}>
+                  Delete
                 </Button>
               </Form.Item>
             </Row>
