@@ -1,7 +1,7 @@
 {
   "name": "comedureunion-liff",
   "private": true,
-  "version": "1.2.2",
+  "version": "1.2.3",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
