@@ -96,11 +96,11 @@ export const ProductPage = () => {
         : fileList && fileList.file
         ? fileList.file
         : "",
+      active: value?.active ? true : false,
     };
 
     if (selectedProduct.id) {
       payload.id = selectedProduct.id;
-      payload.active = value?.active ? true : false;
     }
     setModal(false);
 
