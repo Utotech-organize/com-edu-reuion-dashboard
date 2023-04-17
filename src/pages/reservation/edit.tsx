@@ -191,7 +191,13 @@ export const ReservationPayment = () => {
                       {booking.payment_status}
                     </Tag>
                     <Tag
-                      color={booking.status === "pending" ? "blue" : "success"}
+                      color={
+                        booking.status === "pending"
+                          ? "blue"
+                          : booking.status === "cancel"
+                          ? "red"
+                          : "success"
+                      }
                     >
                       {booking.status}
                     </Tag>
@@ -266,7 +272,8 @@ export const ReservationPayment = () => {
                       />
                     </Col>
                   </Col>
-                  {booking.payment_status === "unpaid" && (
+                  {(booking.payment_status === "unpaid" ||
+                    booking.status !== "cancel") && (
                     <Col span={12}>
                       <Form.Item>
                         <Button
@@ -281,21 +288,21 @@ export const ReservationPayment = () => {
                           Approve Payment
                         </Button>
                       </Form.Item>
-                      {booking.status !== "cancel" && (
-                        <Form.Item>
-                          <Button
-                            htmlType="reset"
-                            block
-                            style={{
-                              background: "#9A0000",
-                              color: "#ffffff",
-                              height: "70px",
-                            }}
-                          >
-                            Cancel Booking
-                          </Button>
-                        </Form.Item>
-                      )}
+                      (
+                      <Form.Item>
+                        <Button
+                          htmlType="reset"
+                          block
+                          style={{
+                            background: "#9A0000",
+                            color: "#ffffff",
+                            height: "70px",
+                          }}
+                        >
+                          Cancel Booking
+                        </Button>
+                      </Form.Item>
+                      )
                     </Col>
                   )}
                 </Row>
