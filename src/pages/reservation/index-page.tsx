@@ -81,7 +81,7 @@ export const BookingIndex = () => {
       width: 100,
       align: "center",
       render: (_: any, record: any) => (
-        <Tag color="#f50">{record.desk.label}</Tag>
+        <Tag color="#f50">{record.desk?.label}</Tag>
       ),
     },
     {

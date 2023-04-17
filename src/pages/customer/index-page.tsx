@@ -96,11 +96,13 @@ export const CustomerIndex = () => {
     <IndexPageLayout>
       <HeaderBar
         title="Customer Management"
-        btnData={[
-          <Link to="new">
-            <Button>Add Customer</Button>
-          </Link>,
-        ]}
+        btnData={
+          [
+            // <Link to="new">
+            //   <Button>Add Customer</Button>
+            // </Link>,
+          ]
+        }
       />
       <div className="reserv-container">
         <div className="reserv-box">

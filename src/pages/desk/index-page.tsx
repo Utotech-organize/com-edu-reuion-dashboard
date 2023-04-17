@@ -151,7 +151,11 @@ export const DeskIndex = () => {
     <IndexPageLayout>
       <HeaderBar
         title="Desk Management"
-        btnData={[<Button onClick={() => setModal(true)}>Add Desk</Button>]}
+        btnData={
+          [
+            // <Button onClick={() => setModal(true)}>Add Desk</Button>
+          ]
+        }
       />
       <CreateDeskModal
         loading={state === "loading" || state === "submitting"}

@@ -1,5 +1,17 @@
 import React from "react";
-import { Avatar, Button, Card, Col, Row, Skeleton } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Row,
+  Skeleton,
+  Form,
+  Empty,
+  Modal,
+  Space,
+  Badge,
+} from "antd";
 import { useLoaderData, useNavigation, useSubmit } from "react-router-dom";
 
 import { CreateDeskModal, HeaderBar } from "../components";
@@ -23,11 +35,12 @@ export async function productLoader({ request, params }: any) {
 export async function productACtion({ request, params }: any) {
   const formData = await request.formData();
   const submitData = Object.fromEntries(formData);
+  const form = JSON.parse(submitData.data);
 
   switch (request.method) {
     case "POST":
       try {
-        const { data } = await API.createProduct(submitData);
+        const { data } = await API.createProduct(form);
 
         return {
           message: "Create Successfully!",
@@ -38,7 +51,7 @@ export async function productACtion({ request, params }: any) {
       }
     case "PUT":
       try {
-        const { data } = await API.updateProduct(params.id, submitData);
+        const { data } = await API.updateProduct(form.id, form);
 
         return {
           message: "Update Successfully!",
@@ -50,7 +63,7 @@ export async function productACtion({ request, params }: any) {
 
     case "DELETE":
       try {
-        const { data } = await API.deleteUser(params.id);
+        const { data } = await API.deleteProduct(form.id);
 
         return {
           message: "Delete Successfully!",
@@ -67,80 +80,67 @@ export const ProductPage = () => {
   const [modal, setModal] = React.useState<boolean>(false);
   const submit = useSubmit();
   const { state } = useNavigation();
+  const [form] = Form.useForm();
 
   const [selectedProduct, setSelectedProduct] = React.useState<any>({});
-  console.log({ products });
-
-  const productsA = [
-    {
-      id: 1,
-      label: "soda update",
-      price: 100,
-      ordering: 1,
-      remark: "this is soda sing",
-      active: false,
-    },
-    {
-      id: 2,
-      label: "soda update",
-      price: 100,
-      ordering: 1,
-      remark: "this is soda sing ddsfsdfdfsdfsdf sfsdsd",
-      active: false,
-    },
-    {
-      id: 3,
-      label: "soda update",
-      price: 100,
-      ordering: 1,
-      remark: "this is soda sing",
-      active: false,
-    },
-    {
-      id: 4,
-      label: "soda update",
-      price: 100,
-      ordering: 1,
-      remark: "this is soda sing",
-      active: false,
-    },
-    {
-      id: 5,
-      label: "soda update",
-      price: 100,
-      ordering: 1,
-      remark: "this is soda sing",
-      active: false,
-    },
-    {
-      id: 6,
-      label: "soda update",
-      price: 100,
-      ordering: 1,
-      remark: "this is soda sing",
-      active: false,
-    },
-  ];
 
   const handleFinishedModal = (values: any) => {
     //  submit({ data: JSON.stringify(payload) }, { method: "post" });
-    console.log({ values });
+
+    const { fileList, ...value } = values;
+
+    const payload = {
+      ...value,
+      image: fileList?.length
+        ? fileList[0].url
+        : fileList && fileList.file
+        ? fileList.file
+        : "",
+    };
+
+    if (selectedProduct.id) {
+      payload.id = selectedProduct.id;
+    }
+    setModal(false);
+
+    submit(
+      { data: JSON.stringify(payload) },
+      { method: selectedProduct.id ? "put" : "post" }
+    );
   };
 
   const onEdit = (data: any) => {
-    console.log({ data });
     setSelectedProduct(data);
     setModal(true);
   };
 
-  const onDelete = (data: any) => {
-    console.log({ data });
+  const onDelete = (id: any) => {
+    Modal.confirm({
+      title: "Warning !",
+      content: (
+        <div>
+          <p>Are you sure to Delete this Product?</p>
+        </div>
+      ),
+      okText: "Confirm",
+
+      onOk() {
+        submit({ data: JSON.stringify({ id: id }) }, { method: "delete" });
+      },
+      cancelText: "Cancel",
+      onCancel() {},
+    });
   };
 
   const onClose = () => {
     setModal(false);
     setSelectedProduct({});
+    form.resetFields();
   };
+
+  React.useEffect(() => {
+    form.setFieldsValue(selectedProduct);
+  }, [selectedProduct]);
 
   return (
     <IndexPageLayout>
@@ -148,13 +148,16 @@ export const ProductPage = () => {
         title="Product Management"
         btnData={[<Button onClick={() => setModal(true)}>Add Product</Button>]}
       />
-      <UpdateProduct
-        data={selectedProduct}
-        loading={state === "loading" || state === "submitting"}
-        open={modal}
-        onCancel={onClose}
-        handleFinishedModal={handleFinishedModal}
-      />
+      {modal && (
+        <UpdateProduct
+          open={modal}
+          form={form}
+          data={selectedProduct}
+          loading={state === "loading" || state === "submitting"}
+          onCancel={onClose}
+          handleFinishedModal={handleFinishedModal}
+        />
+      )}
       <div
         style={{
           height: "100%",
@@ -164,7 +167,7 @@ export const ProductPage = () => {
         }}
       >
         <Row gutter={[16, 16]}>
-          {productsA.map((data: any) => (
+          {products.map((data: any) => (
             <Col xs={24} sm={12} md={8} lg={6} key={data.id}>
               <Skeleton
                 loading={state === "loading" || state === "submitting"}
@@ -182,14 +185,23 @@ export const ProductPage = () => {
                     />,
                   ]}
                   cover={
-                    <img
-                      alt="example"
-                      src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                    />
+                    data.image ? (
+                      <img alt={`product-${data.id}`} src={data.image} />
+                    ) : (
+                      <div style={{ height: "200px", background: "gray" }} />
+                    )
                   }
-                  bodyStyle={{ height: 150, padding: 0 }}
+                  bodyStyle={{ height: 150, padding: 4 }}
                 >
-                  <Meta title={data.label} description={data.remark} />
+                  <Meta
+                    title={
+                      <Space>
+                        {data.label}
+                        <Badge color={data.active ? "green" : "red"} />
+                      </Space>
+                    }
+                    description={data.remark}
+                  />
                   <h4
                     style={{ marginTop: 12, marginBottom: 0, textAlign: "end" }}
                   >
