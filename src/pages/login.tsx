@@ -101,6 +101,16 @@ export const Login = () => {
             </Row>
           </Form>
         </div>
+        <Row justify="center" style={{ marginTop: "28px" }}>
+          <Button
+            shape="round"
+            size="large"
+            style={{ backgroundColor: "#f6b63b", color: "white" }}
+            onClick={() => navigate("/scan-code")}
+          >
+            Scan QR-Code
+          </Button>
+        </Row>
       </div>
     </div>
   );

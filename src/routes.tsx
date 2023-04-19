@@ -58,6 +58,8 @@ import {
 } from "./pages/desk";
 import { DeskIndex, EditDesk } from "./pages/desk";
 import { SettingPage, settingAction, settingLoader } from "./pages/setting";
+import { ScanCode } from "./pages/scanCode";
+import { MapTableLoader, MyTable } from "./pages/myTable";
 
 export const router = createBrowserRouter([
   {
@@ -173,5 +175,14 @@ export const router = createBrowserRouter([
     path: "/login",
     action: LoginAction,
     element: <Login />,
+  },
+  {
+    path: "/scan-code",
+    element: <ScanCode />,
+  },
+  {
+    path: "/my-table",
+    loader: MapTableLoader,
+    element: <MyTable />,
   },
 ]);
