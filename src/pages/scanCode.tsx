@@ -7,8 +7,8 @@ export const ScanCode = () => {
   const delay = 500;
 
   const previewStyle = {
-    height: 240,
-    width: 320,
+    height: 500,
+    width: 500,
   };
 
   const [result, setResult] = useState<any>("No result");
