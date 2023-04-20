@@ -18,9 +18,10 @@ export const ScanCode = () => {
 
   const handleScan = (result: any) => {
     if (result) {
+      let spiltData = result.data.split("comedu-reunion:");
+
       setResult(result);
-      //FIXME PHOOM (remove , in slug value)
-      nav(`/my-table?code=${result.data.split("comedu-reunion:")}`);
+      nav(`/my-table?code=${spiltData[1]}`);
     }
   };
 

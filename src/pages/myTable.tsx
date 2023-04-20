@@ -9,11 +9,12 @@ import Entrance from "../images/walking-man.png";
 export async function MapTableLoader({ request, params, slug }: any) {
   try {
     const desks = await API.getDesks();
+    const data = await API.getBooking(slug);
+
+    console.log({ data });
 
     //FIXME PHOOM
-    const ticket = await API.getBookingTicket(slug);
-
-    console.log({ ticket });
+    // const ticket = await API.getBookingTicket(slug);
 
     return { desks: desks.data.data };
   } catch (e: any) {
