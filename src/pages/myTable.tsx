@@ -6,9 +6,14 @@ import { Card, Image, Typography } from "antd";
 import Stage from "../images/cinema.png";
 import Entrance from "../images/walking-man.png";
 
-export async function MapTableLoader({ request, params }: any) {
+export async function MapTableLoader({ request, params, slug }: any) {
   try {
     const desks = await API.getDesks();
+
+    //FIXME PHOOM
+    const ticket = await API.getBookingTicket(slug);
+
+    console.log({ ticket });
 
     return { desks: desks.data.data };
   } catch (e: any) {
@@ -19,79 +24,83 @@ export async function MapTableLoader({ request, params }: any) {
 export const MyTable = () => {
   const { desks } = useLoaderData() as any;
 
-  const exportColorWithStatus = (status: any) => {
+  const exportColorWithStatus = (slug: any) => {
     let color = "";
-    if (status === "available") {
-      color = "#FFCA18";
-    } else if (status === "pending") {
+    //FIXME PHOOM
+    if (slug === "slug") {
       color = "#8598BD";
-    } else if (status === "unavailable") {
-      color = "rgba(255, 202, 24, 0.4)";
-    }
+    } else color = "rgba(255, 202, 24, 0.4)";
 
     return color;
   };
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
+    <div style={{ backgroundColor: "rgba(0, 0, 0, 0.85)" }}>
       <div
+        className="app-mobile mobile  html-mobile body-mobile"
         style={{
-          marginBottom: "10px",
-          paddingTop: "10px",
-          width: "430px",
-          borderRadius: "20px",
-          borderStyle: "ridge",
+          width: "100%",
+          height: "100vh",
           display: "flex",
-          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "column",
         }}
       >
-        <Image preview={false} src={Stage} style={{ width: "40px" }}></Image>
-        <Typography className="black-text">เวที</Typography>
-      </div>
-      <div className="grid-container">
-        {desks.map((d: any, index: any) => (
-          <div key={d.id} className="grid-item">
-            <div
-              className="seat"
-              style={{
-                width: "100%",
-                height: "70px",
-                color: "#000000",
-                background: exportColorWithStatus(d.status),
-              }}
-            >
-              Table
-              <br />
-              {d.label}
+        <div
+          style={{
+            marginBottom: "10px",
+            paddingTop: "10px",
+            width: "390px",
+            borderRadius: "20px",
+            borderStyle: "ridge",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image preview={false} src={Stage} style={{ width: "40px" }}></Image>
+          <Typography className="black-text">เวที</Typography>
+        </div>
+        <div className="grid-container">
+          {desks.map((d: any, index: any) => (
+            <div key={d.id} className="grid-item">
+              <div
+                className="seat-mobile"
+                style={{
+                  height: "50px",
+                  color: "#000000",
+                  //FIXME PHOOM
+                  background: exportColorWithStatus(""),
+                }}
+              >
+                Table
+                <br />
+                {d.label}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div
-        style={{
-          marginTop: "10px",
-          paddingTop: "10px",
-          width: "430px",
-          borderRadius: "20px",
-          borderStyle: "ridge",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Image preview={false} src={Entrance} style={{ width: "40px" }}></Image>
-        <Typography className="black-text">ทางเข้า</Typography>
+          ))}
+        </div>
+        <div
+          style={{
+            marginTop: "10px",
+            paddingTop: "10px",
+            width: "390px",
+            borderRadius: "20px",
+            borderStyle: "ridge",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            preview={false}
+            src={Entrance}
+            style={{ width: "40px" }}
+          ></Image>
+          <Typography className="black-text">ทางเข้า</Typography>
+        </div>
       </div>
     </div>
   );

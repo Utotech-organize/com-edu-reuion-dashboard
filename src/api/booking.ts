@@ -36,3 +36,10 @@ export async function cancelBooking(id: any) {
     url: `/bookings/delete/${id}`,
   });
 }
+
+export async function getBookingTicket(slug: any) {
+  return client({
+    method: "GET",
+    url: `/bookings/ticket`,
+  });
+}
