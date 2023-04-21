@@ -286,6 +286,14 @@ body {
   justify-content: center;
 }
 
+.center-abs {
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @media only screen and (max-width: 574px) {
   .reserv-box {
     display: block;
