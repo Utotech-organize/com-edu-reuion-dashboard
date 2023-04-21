@@ -14,6 +14,13 @@ export async function getBooking(id: any) {
   });
 }
 
+export async function getBookingWithTicket(slug: any) {
+  return client({
+    method: "GET",
+    url: `/bookings/ticket/${slug}`,
+  });
+}
+
 export async function createBooking(data: any) {
   return client({
     method: "POST",

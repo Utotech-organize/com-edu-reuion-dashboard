@@ -83,13 +83,11 @@ export const UserIndex = () => {
     <IndexPageLayout>
       <HeaderBar
         title="User Management"
-        btnData={
-          [
-            // <Link to="new">
-            //   <Button>Add User</Button>
-            // </Link>,
-          ]
-        }
+        btnData={[
+          <Link to="new">
+            <Button>Add User</Button>
+          </Link>,
+        ]}
       />
       <div className="reserv-container">
         <div className="reserv-box">

@@ -16,6 +16,7 @@
     "numeral": "^2.0.6",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
+    "react-bubble-ui": "^1.1.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
     "react-web-qr-reader": "^1.0.4"

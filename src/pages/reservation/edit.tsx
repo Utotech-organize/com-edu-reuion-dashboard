@@ -258,20 +258,22 @@ export const ReservationPayment = () => {
                     height: "120px",
                   }}
                 >
-                  <Col span={12}>
-                    <Col style={{ textAlign: "center" }}>
-                      <UploadImage
-                        data={
-                          booking && booking.image_url
-                            ? [{ uid: "-1", url: booking.image_url }]
-                            : []
-                        }
-                        loading={loading}
-                        required={true}
-                        handleLoader={handleLading}
-                      />
+                  {booking.status !== "cancel" && (
+                    <Col span={12}>
+                      <Col style={{ textAlign: "center" }}>
+                        <UploadImage
+                          data={
+                            booking && booking.image_url
+                              ? [{ uid: "-1", url: booking.image_url }]
+                              : []
+                          }
+                          loading={loading}
+                          required={true}
+                          handleLoader={handleLading}
+                        />
+                      </Col>
                     </Col>
-                  </Col>
+                  )}
                   {booking.payment_status === "unpaid" &&
                     booking.status !== "cancel" && (
                       <Col span={12}>

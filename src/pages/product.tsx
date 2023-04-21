@@ -85,8 +85,6 @@ export const ProductPage = () => {
   const [selectedProduct, setSelectedProduct] = React.useState<any>({});
 
   const handleFinishedModal = (values: any) => {
-    //  submit({ data: JSON.stringify(payload) }, { method: "post" });
-
     const { fileList, ...value } = values;
 
     const payload = {
@@ -140,7 +138,13 @@ export const ProductPage = () => {
   };
 
   React.useEffect(() => {
-    form.setFieldsValue(selectedProduct);
+    form.setFieldsValue({
+      ...selectedProduct,
+      fileList:
+        selectedProduct && selectedProduct.image
+          ? [{ uid: "-1", url: selectedProduct.image }]
+          : [],
+    });
   }, [selectedProduct]);
 
   return (
@@ -159,6 +163,7 @@ export const ProductPage = () => {
           handleFinishedModal={handleFinishedModal}
         />
       )}
+
       <div
         style={{
           height: "100%",
