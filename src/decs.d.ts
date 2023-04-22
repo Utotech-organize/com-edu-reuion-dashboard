@@ -1,1 +1,1 @@
-declare module "react-bubble-ui";
+declare module "react-bubble-ui"; //fixed

@@ -7,8 +7,6 @@ import {
   ProductPage,
   productLoader,
   productACtion,
-  GalleryPage,
-  GalleryLoader,
   CameraLoader,
   CameraPage,
 } from "./pages";
@@ -64,7 +62,9 @@ import { DeskIndex, EditDesk } from "./pages/desk";
 import { SettingPage, settingAction, settingLoader } from "./pages/setting";
 import { ScanCode } from "./pages/scanCode";
 import { MapTableLoader, MyTable } from "./pages/myTable";
+import { GalleryLoader, GalleryPage } from "./pages/GalleryPage";
 import { SlotRandom, SlotRandomloader } from "./pages/SlotRandom";
+// import { SlotRandom, SlotRandomloader } from "./pages/SlotRandom";
 
 export const router = createBrowserRouter([
   {
@@ -191,6 +191,11 @@ export const router = createBrowserRouter([
     element: <MyTable />,
   },
   {
+    path: "/camera",
+    loader: CameraLoader,
+    element: <CameraPage />,
+  },
+  {
     path: "/gallery",
     loader: GalleryLoader,
     element: <GalleryPage />,
@@ -199,10 +204,5 @@ export const router = createBrowserRouter([
     path: "/slot-random",
     loader: SlotRandomloader,
     element: <SlotRandom />,
-  },
-  {
-    path: "/camera",
-    loader: CameraLoader,
-    element: <CameraPage />,
   },
 ]);
