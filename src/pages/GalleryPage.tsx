@@ -1,18 +1,32 @@
-import { useLoaderData } from "react-router-dom";
+import {
+  useFetcher,
+  useLoaderData,
+  useNavigation,
+  useSubmit,
+} from "react-router-dom";
 import BubbleUI from "react-bubble-ui";
 
 import * as API from "../api";
+import React, { useTransition } from "react";
+import { Spin } from "antd";
 
 export async function GalleryLoader({ request, params }: any) {
   try {
-    return null;
+    const { data } = await API.getCustomers();
+
+    const result = data.data.filter((d: any) => d.status === "available");
+
+    return { customers: result };
   } catch (e: any) {
-    return null;
+    return { customers: [] };
   }
 }
 
 export const GalleryPage = () => {
-  const res = useLoaderData();
+  const { customers } = useLoaderData() as any;
+  const { state } = useNavigation();
+
+  const submit = useSubmit();
 
   const options = {
     size: 100,
@@ -29,11 +43,19 @@ export const GalleryPage = () => {
     gravitation: 5,
   };
 
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      submit({}, { method: "get" });
+    }, 60 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   const Child = (data: any) => {
     return (
       <div className="childComponent">
         <img
-          src={data.data.image}
+          src={data.data.line_photo_url}
           alt=""
           style={{
             width: "100%",
@@ -45,19 +67,12 @@ export const GalleryPage = () => {
   };
 
   return (
-    <div>
+    <Spin spinning={state === "loading" || state === "submitting"}>
       <BubbleUI options={options} className="myBubbleUI">
-        {[...Array(200)]
-          .map((x) => {
-            return {
-              image:
-                "https://drive.google.com/uc?export=view&id=1X397QtEgZ76TDYBZKaIBce0xKRnnkHD9",
-            };
-          })
-          .map((data: any, i: any) => (
-            <Child data={data} className="child" key={i} />
-          ))}
+        {customers.map((data: any, i: any) => (
+          <Child data={data} className="child" key={i} />
+        ))}
       </BubbleUI>
-    </div>
+    </Spin>
   );
 };
