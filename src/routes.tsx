@@ -7,8 +7,6 @@ import {
   ProductPage,
   productLoader,
   productACtion,
-  // GalleryPage,
-  // GalleryLoader,
   CameraLoader,
   CameraPage,
 } from "./pages";
@@ -190,6 +188,11 @@ export const router = createBrowserRouter([
     loader: MapTableLoader,
     element: <MyTable />,
   },
+  {
+    path: "/camera",
+    loader: CameraLoader,
+    element: <CameraPage />,
+  },
   // {
   //   path: "/gallery",
   //   loader: GalleryLoader,
@@ -200,9 +203,4 @@ export const router = createBrowserRouter([
   //   loader: SlotRandomloader,
   //   element: <SlotRandom />,
   // },
-  {
-    path: "/camera",
-    loader: CameraLoader,
-    element: <CameraPage />,
-  },
 ]);

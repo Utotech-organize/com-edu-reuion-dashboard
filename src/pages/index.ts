@@ -5,5 +5,4 @@ export * from "./root";
 export * from "./customer";
 export * from "./setting";
 export * from "./product";
-// export * from "./GalleryPage";
 export * from "./CameraPage";
