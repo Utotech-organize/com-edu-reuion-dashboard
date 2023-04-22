@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.2.5...1.3.0) (2023-04-22)
+
+
+### Features
+
+* **adding bubble to project:** adding bubble to project ([df5fd5c](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/df5fd5c2d4c5a08229c06928420f4d2f20a00148))
+* **adding random slot:** adding random slot ([00ffda0](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/00ffda0e70ba6a64acb22562fbae2fb7148090ad))
+* **web-cam:** add lib web cam scan qr , add button in login page and add all desk in my table ([349902a](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/349902aa6560de80b5831d3bbb5d2bcbe512c94f))
+
+
+### Bug Fixes
+
+* **add-css:** add css mobile view ([ec96dc9](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/ec96dc9f08c80da14041f83da4108b5065a9f3ee))
+* **my-table:** add image icon in my table page ([4da21d9](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/4da21d96c2b646cc3fa94047abf4422f1029d15c))
+* **spilt-slug:** spilt slug success ([0d76822](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/0d76822c007c08e70c3ad5d5d5a51a942333d015))
+
 ### [1.2.5](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.2.4...1.2.5) (2023-04-17)
 
 
