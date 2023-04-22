@@ -3,8 +3,7 @@ import BubbleUI from "react-bubble-ui";
 import _ from "lodash";
 import * as API from "../api";
 import React from "react";
-import { Button } from "antd";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Button, Image } from "antd";
 export async function SlotRandomloader({ request, params }: any) {
   try {
     const { data } = await API.getCustomers();
@@ -52,7 +51,7 @@ export const SlotRandom = () => {
   const Child = (data: any) => {
     return (
       <div className="childComponent">
-        <LazyLoadImage
+        <Image
           src={data.data.line_photo_url}
           alt=""
           style={{
