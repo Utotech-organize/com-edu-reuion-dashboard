@@ -4,25 +4,24 @@ import _ from "lodash";
 import * as API from "../api";
 import React from "react";
 import { Button } from "antd";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
 export async function SlotRandomloader({ request, params }: any) {
   try {
-    return null;
+    const { data } = await API.getCustomers();
+
+    const result = data.data.filter((d: any) => d.status === "available");
+
+    return { customers: result };
   } catch (e: any) {
-    return null;
+    return { customers: [] };
   }
 }
 
-// const getRandomObject = (array: any) => {
-//   const randomObject = array[Math.floor(Math.random() * array.length)];
-//   return randomObject;
-// };
-
 export const SlotRandom = () => {
-  const res = useLoaderData();
+  const { customers } = useLoaderData() as any;
   const [randomData, setRandomData] = React.useState<any[]>([]);
-  console.log({ randomData });
   const [start, setStart] = React.useState(false);
+
   const options = {
     size: 180,
     minSize: 20,
@@ -38,32 +37,23 @@ export const SlotRandom = () => {
     gravitation: 5,
   };
 
-  const data = [...Array(200)].map((x) => {
-    return {
-      image:
-        "https://drive.google.com/uc?export=view&id=1X397QtEgZ76TDYBZKaIBce0xKRnnkHD9",
-    };
-  });
-
   React.useEffect(() => {
     let intervalId = null as any;
 
     if (start) {
       intervalId = setInterval(() => {
-        setRandomData(() => _.sampleSize(data, 3));
+        setRandomData(() => _.sampleSize(customers, 3));
       }, 500);
     }
 
     return () => clearInterval(intervalId);
   }, [start]);
 
-  console.log({ stop });
-
   const Child = (data: any) => {
     return (
       <div className="childComponent">
-        <img
-          src={data.data.image}
+        <LazyLoadImage
+          src={data.data.line_photo_url}
           alt=""
           style={{
             width: "100%",
@@ -79,7 +69,7 @@ export const SlotRandom = () => {
       <BubbleUI options={options} className="myBubbleUI">
         {randomData && randomData.length ? (
           randomData.map((data: any, i: any) => (
-            <Child data={data} className="child" key={i} />
+            <Child data={{ ...data, i }} className="child" key={i} />
           ))
         ) : (
           <></>

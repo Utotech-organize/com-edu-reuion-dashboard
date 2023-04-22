@@ -22,8 +22,6 @@ export async function MapTableLoader({ request, params }: any) {
     const desks = await API.getDesks();
     const data = await API.getBookingWithTicket(code);
 
-    console.log({ data });
-
     //FIXME PHOOM
     // const ticket = await API.getBookingTicket(slug);
 
@@ -35,7 +33,6 @@ export async function MapTableLoader({ request, params }: any) {
 
 export const MyTable = () => {
   const { desks, result } = useLoaderData() as any;
-  console.log({ result });
   const navigate = useNavigate();
   const exportColorWithStatus = (id: any) => {
     let color = "";
