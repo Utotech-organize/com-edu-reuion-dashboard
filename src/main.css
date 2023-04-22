@@ -92,6 +92,17 @@ body {
   max-width: 100px;
 }
 
+.seat-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 70px;
+  border-radius: 8px;
+  cursor: pointer;
+  max-width: 70px;
+}
+
 .mention {
   display: flex;
   align-items: center;
@@ -207,6 +218,80 @@ body {
 .ten {
   left: -20px;
   top: -35px;
+}
+
+.app-mobile {
+  font-family: "FC Subject Rounded [Non-cml.]";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  background-color: #455154;
+  width: 100%;
+  height: 100%;
+}
+
+.mobile {
+  scroll-behavior: smooth !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.html-mobile {
+  height: 100%;
+  margin: 0% auto;
+
+  max-width: 414px;
+  overflow: auto;
+}
+
+.body-mobile {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: hidden;
+  display: flex;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  /* max-width: 100%; */
+  -webkit-box-align: center;
+
+  /* align-items: center; */
+  min-width: 0px;
+  min-height: 0px;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+
+.myBubbleUI {
+  width: 100%;
+  /* max-width: 500px; */
+  height: 100vh;
+  background-color: blueviolet;
+}
+
+.child {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.childComponent {
+  width: 100%; /* width expands to fit bubble */
+  height: 100%; /* width expands to fit bubble */
+  border-radius: 50%; /* rounded border forms a circle */
+  background-color: burlywood;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-abs {
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media only screen and (max-width: 574px) {

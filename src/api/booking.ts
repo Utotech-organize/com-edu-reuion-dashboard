@@ -14,6 +14,13 @@ export async function getBooking(id: any) {
   });
 }
 
+export async function getBookingWithTicket(slug: any) {
+  return client({
+    method: "GET",
+    url: `/bookings/ticket/${slug}`,
+  });
+}
+
 export async function createBooking(data: any) {
   return client({
     method: "POST",
@@ -34,5 +41,12 @@ export async function cancelBooking(id: any) {
   return client({
     method: "DELETE",
     url: `/bookings/delete/${id}`,
+  });
+}
+
+export async function getBookingTicket(slug: any) {
+  return client({
+    method: "GET",
+    url: `/bookings/ticket`,
   });
 }
