@@ -7,4 +7,9 @@ export default defineConfig({
     port: 8081,
   },
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      external: "NonExistingPath",
+    },
+  },
 });
