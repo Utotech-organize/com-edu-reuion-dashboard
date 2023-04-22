@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.5](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.3.4...1.3.5) (2023-04-22)
+
+
+### Bug Fixes
+
+* **css:** import css for use ([06e3109](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/06e31093ac62e76206f8546c57e9ff770edb229e))
+
 ### [1.3.4](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.3.3...1.3.4) (2023-04-22)
 
 
