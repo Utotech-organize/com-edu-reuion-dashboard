@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.4](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.3.3...1.3.4) (2023-04-22)
+
+
+### Bug Fixes
+
+* **build:** added vite config ([daf33c2](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/daf33c29727185976a3df3f7baf0c16df27a4117))
+* **build:** deploy to ruk com ([9316a2a](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/9316a2a473e6f1c348143ed450869df5aec087ff))
+* **build:** fixed build and merge conflict ([a050a96](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/a050a96df59ec180b587da1eefbdc34b456e9273))
+* **build:** fixed build by p' aonzy ([24bf174](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/24bf174d1f33dfcb7a244e31a1da1de5d61276f6))
+* **declare type bubble lib.:** declare typwe bubble in desc.d.ts ([250e9fd](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/250e9fd55362b3c258f505960d5d9e9b1b08a3bf))
+* **merge:** fixed merge conflict ([3f239bf](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/3f239bfb4bde5195dfe183ffb51c0eef3a68f1ee))
+* **return bubble to project:** return bubble to project ([67b5878](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/67b5878cc319844d2a68787041d5977dfe915e9e))
+
 ### [1.3.3](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.3.2...1.3.3) (2023-04-22)
 
 
