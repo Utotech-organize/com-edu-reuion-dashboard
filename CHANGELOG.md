@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.3.2...1.3.3) (2023-04-22)
+
+
+### Bug Fixes
+
+* **build:** build ([370d172](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/370d172f557234f7a457439dacf4f6721e640faa))
+* **build:** fixed gh build ([75d168a](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/75d168a1f87a2d878bfc5003af1c137536a12825))
+* **config:** for build ([6289d08](https://github.com/Tweed-tech/com-edu-reuion-dashboard/commit/6289d08650c3250ce98b527fd767920421a9a9bb))
+
 ### [1.3.2](https://github.com/Tweed-tech/com-edu-reuion-dashboard/compare/1.3.1...1.3.2) (2023-04-22)
 
 
